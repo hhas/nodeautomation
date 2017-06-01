@@ -1,6 +1,24 @@
 # README
 
-NodeAutomation is a Node.js module that allows 'AppleScriptable' applications to be controlled directly from JavaScript.
+NodeAutomation is a Node.js module that allows 'AppleScriptable' applications 
+to be controlled directly from JavaScript.
+
+For example, to get the value of the first paragraph of the topmost document 
+in TextEdit:
+
+    app('TextEdit').documents[0].paragraphs[0].get()
+
+This is equivalent to the AppleScript statement:
+
+    tell application "TextEdit" to get paragraph 1 of document 1
+
+
+Or to create a new "Hello World!" document in TextEdit:
+
+    app('TextEdit').make({new: k.document, 
+                          withProperties: {text: "Hello World!"}})
+
+-------
 
 Caution: This is an alpha release.
 
@@ -8,7 +26,8 @@ E&OE. No warranty given. Use at own risk. Etc.
 
 -------
 
-To build HTML documentation, run the following command to install the `markdown2` package for Python:
+To build HTML documentation, run the following command to install the 
+`markdown2` package for Python:
 
 	sudo easy_install markdown2
 	
@@ -17,5 +36,6 @@ Then `cd` to the `nodeautomation` directory and run:
 	./mkdoc
 
 
-Documentation is preliminary, being a quick and dirty translation of the original appscript manual.
+Documentation is preliminary, being a quick and dirty translation of the 
+original appscript manual.
 
