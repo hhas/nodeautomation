@@ -3,14 +3,14 @@
 NodeAutomation is a Node.js module that allows 'AppleScriptable' applications 
 to be controlled directly from JavaScript.
 
-For example, to get the value of the first paragraph of the topmost document 
-in TextEdit:
+For example, to get the value of the first paragraph of the document named
+'README' in TextEdit:
 
-    app('TextEdit').documents[0].paragraphs[0].get()
+    app('TextEdit').documents.named('README').paragraphs[0].get()
 
 This is equivalent to the AppleScript statement:
 
-    tell application "TextEdit" to get paragraph 1 of document 1
+    tell application "TextEdit" to get paragraph 1 of document "README"
 
 
 Or to create a new "Hello World!" document in TextEdit:
