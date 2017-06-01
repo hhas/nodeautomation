@@ -1,0 +1,104 @@
+/* sticky footer code from www.cssstickyfooter.com */
+
+html, body {height: 100%;}
+
+#wrap {min-height: 100%;}
+
+#main {overflow:auto;
+    padding-bottom: 100px;  /* must be same height as the footer */
+}
+
+#footer {
+    color:#00406e; background-color: #cedbef; 
+    position: relative;
+    margin-top: -80px; /* negative value of footer height */
+    height: 80px;
+    clear:both;
+} 
+
+/*Opera Fix*/
+body:before {
+    content:"";
+    height:100%;
+    float:left;
+    width:0;
+    margin-top:-32767px;/
+}
+
+
+/* general */
+
+body {
+    font-family:Arial,sans-serif; line-height:140%; 
+    color:#000; background-color:#fff; 
+    margin: 0 12% 0 8%; font-size: 0.9em;
+}
+
+/*headings*/
+
+h1 {
+    font-family:Arial,sans-serif; font-weight:bold; line-height:110%;
+    color:#00457e; background-color:#cedbef; 
+    border-bottom:solid #92b4db 6px;
+    padding:0.4em 0.6em 0.5em; margin:0;
+}
+
+
+h2, h3 {font-family: Palatino, Georgia, Serif; color:#00457e; background-color:transparent; font-weight:bold;}
+
+h2 {font-size:1.6em; padding:0 0 1px; border-bottom:solid #f77700 2px; margin:1.5em 0 0.5em;}
+h3 {font-size:1.1em; padding:0 0 0px; border-bottom:dotted #f77700 1px; margin:0.5em 0 0.5em;}
+
+
+/*body text*/
+
+p, li {margin: 1em 0;}
+
+ul {padding-left: 0.5em; margin-left:0.5em;}
+
+h2+ul, h2+ol {margin-top: 1.5em}
+
+
+pre {
+    font-size:1em; line-height:130%; 
+    color:#000; background-color:#cedbef; 
+    border-bottom:solid #92b4db 6px;
+    padding:1.8em 2em 2em; 
+    margin:1.2em 0em; 
+}
+
+code {font-family:Courier,Monospace; color:#00457e; background-color:transparent;}
+
+pre code {color:#00406e; background-color:transparent;}
+
+h2+h3 {margin-top: 1.2em;}
+h3+p {margin-top:-0.25em;}
+
+
+/*links*/
+
+a:link {color:#00457e; background-color:transparent;}
+a:visited  {color:#445555; background-color:transparent;}
+
+
+/* navigation*/
+
+.navbar {
+    font-size:0.9em; font-weight:bold; 
+    color:#e06000; background-color: white; 
+    padding: 0.3em 0 0.4em; margin: 0; 
+}
+
+.navbar+h2 {margin-top: 1em}
+
+.navbar a:link, .navbar a:visited, .footer a:link, .footer a:visited {font-style:normal; text-decoration:none;}
+.navbar a:hover, .navbar a:active, .footer a:hover, .footer a:active {text-decoration:underline;}
+
+/*footer*/
+
+.footer {
+    font-size:0.9em; font-weight:bold;
+    color:#00406e; background-color: #cedbef; 
+    border-top:solid #92b4db 6px;
+    padding: 0.3em 13px 0.5em; margin: 0; 
+}

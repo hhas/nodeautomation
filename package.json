@@ -1,0 +1,29 @@
+{
+  "name": "nodeautomation",
+  "description": "A high-level Apple event ('application scripting') bridge for macOS.",
+  "keywords": [
+    "applescript",
+    "mac",
+    "IPC",
+    "interprocess",
+    "application",
+    "automation",
+    "appleevent",
+    "bridge",
+    "apple",
+    "macos"
+  ],
+  "version": "0.1.0",
+  "license": "TBC",
+  "author": "",
+  "repository": {
+    "type": "hg",
+    "url": ""
+  },
+  "main": "./lib/index.js",
+  "scripts": {
+  },
+  "dependencies": {
+    "nodobjc": "*",
+  }
+}
