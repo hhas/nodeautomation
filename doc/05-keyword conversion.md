@@ -1,5 +1,7 @@
 # Keyword conversion
 
+[TO DO: merge into Type Conversions chapter]
+
 ## Keyword conversion
 
 [Note: keyword conversion rules are not yet finalized, so this might change]
