@@ -36,6 +36,13 @@ console.log(`<${util.inspect(appData.unpack(desc))}>`);
 */
 
 
+const f = app('Finder');
+
+console.log(f.home.items.name());
+console.log(f.FinderWindows[0].bounds());
+console.log(f.FinderWindows[0].iconViewOptions.backgroundColor());
+
+/*
 
 // TEST.ID(2345).document.text.words // .slice(66, 88)
 
@@ -64,6 +71,7 @@ te.documents.at(1).close({saving:k.ask});
 
 //console.log(objspec.__nodeautomation_specifierRecord__);
 
+*/
 
 /*
 
