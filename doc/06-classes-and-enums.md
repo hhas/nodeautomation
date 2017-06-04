@@ -1,4 +1,6 @@
-# Classes and enumerated types
+# Type conversions
+
+[TO DO: reorganize]
 
 ## The `k` ("keyword") namespace
 
@@ -21,6 +23,12 @@ For your convenience, NodeAutomation treats standard Apple event types and appli
 
 
 Occasionally an application defines a type or enumerator without providing it with a corresponding name name. In these cases, the value will be represented as a raw AE code, e.g. `k['#ab12']`.
+
+To determine if a variable contains a keyword object:
+    
+    var someVariable = k.document;
+    k.isFile(someVariable);
+    //--> true
 
 [TO DO: Keyword.compare(); what else?]
 
