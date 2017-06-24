@@ -35,19 +35,34 @@ console.log(`<${util.inspect(appData.unpack(desc))}>`);
 
 */
 
-
 const f = app('Finder');
 
 console.log(f.home.items.name());
 console.log(f.FinderWindows[0].bounds());
 console.log(f.FinderWindows[0].iconViewOptions.backgroundColor());
-
 /*
+*/
+
+
+//const finderProc = app("System Events").processes.named("Finder");
+//var res = finderProc.windows.at(1).UIElements.where(its.position.equalTo([478, 26])).get();
+//console.log(res);
+
+
 
 // TEST.ID(2345).document.text.words // .slice(66, 88)
 
+/*
+const te = app('testapp');
 
-const te = app('TextEdit');
+console.log(te.isRunning);
+
+te.launch();
+
+console.log(te.isRunning);
+*/
+
+/*
 //util.inspect(te);
 //var objspec = te.windows.named('ABC').characters.thru(1,4).text;
 
