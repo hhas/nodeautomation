@@ -37,6 +37,12 @@ console.log(`<${util.inspect(appData.unpack(desc))}>`);
 
 const f = app('Finder');
 
+try {
+console.log(f.home, f.home.items[1000]());
+} catch (e) {
+    console.log(e.toString(), '\n');
+}
+
 console.log(f.home.items.name());
 console.log(f.FinderWindows[0].bounds());
 console.log(f.FinderWindows[0].iconViewOptions.backgroundColor());
