@@ -60,8 +60,12 @@ console.log(f.FinderWindows[0].iconViewOptions.backgroundColor());
 
 const te = app('TextEdit');
 
-//console.log(te.documents.next());
-//console.log(app.documents.next());
+
+// TO DO: FIX: these are both buggy (problem: AS allows this syntax, even though it's nonsensical, e.g. `document after every document` will always be rejected by app); the real problem here is that the parent
+
+console.log(te.documents.next()); // crashes
+
+console.log(app.documents.next()); // nonsense output 
 
 /*
 
@@ -82,8 +86,8 @@ var ref = te.documents.text;
 
 //console.log(app.documents.text.any);
 
-console.log(con.words[2].previous());
-console.log(con.words[2].previous(k.character));
+//console.log(con.words[2].previous());
+//console.log(con.words[2].previous(k.character));
 
 /*
 console.log("RESULT:", ref.get());
