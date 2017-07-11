@@ -37,6 +37,7 @@ console.log(`<${util.inspect(appData.unpack(desc))}>`);
 
 const f = app('Finder');
 
+/*
 try {
 console.log(f.home, f.home.items[1000]());
 } catch (e) {
@@ -46,7 +47,6 @@ console.log(f.home, f.home.items[1000]());
 console.log(f.home.items.name());
 console.log(f.FinderWindows[0].bounds());
 console.log(f.FinderWindows[0].iconViewOptions.backgroundColor());
-/*
 */
 
 
@@ -58,8 +58,12 @@ console.log(f.FinderWindows[0].iconViewOptions.backgroundColor());
 
 // TEST.ID(2345).document.text.words // .slice(66, 88)
 
+const te = app('TextEdit');
+
+//console.log(te.documents.next());
+//console.log(app.documents.next());
+
 /*
-const te = app('testapp');
 
 console.log(te.isRunning);
 
@@ -68,14 +72,20 @@ te.launch();
 console.log(te.isRunning);
 */
 
-/*
 //util.inspect(te);
-//var objspec = te.windows.named('ABC').characters.thru(1,4).text;
+
+var objspec = te.windows.named('ABC').characters.thru(1,4).text;
 
 var ref = te.documents.text;
-console.log('REF:', ref);
+//console.log('REF:', ref);
 //console.log('OBJSPEC:', te.__nodeautomation_appData__.pack(ref));
 
+//console.log(app.documents.text.any);
+
+console.log(con.words[2].previous());
+console.log(con.words[2].previous(k.character));
+
+/*
 console.log("RESULT:", ref.get());
 
 if (te.documents.count() === 0) { te.make({new:k.document}); }
