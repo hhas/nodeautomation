@@ -58,14 +58,11 @@ console.log(f.FinderWindows[0].iconViewOptions.backgroundColor());
 
 // TEST.ID(2345).document.text.words // .slice(66, 88)
 
-const te = app('TextEdit');
+const te = app('TextEdit', {terminology: '/Users/has/TextEdit.node.json'});
 
+//console.log(te.documents.next());
 
-// TO DO: FIX: these are both buggy (problem: AS allows this syntax, even though it's nonsensical, e.g. `document after every document` will always be rejected by app); the real problem here is that the parent
-
-console.log(te.documents.next()); // crashes
-
-console.log(app.documents.next()); // nonsense output 
+//console.log(app.documents.next());
 
 /*
 
@@ -89,7 +86,6 @@ var ref = te.documents.text;
 //console.log(con.words[2].previous());
 //console.log(con.words[2].previous(k.character));
 
-/*
 console.log("RESULT:", ref.get());
 
 if (te.documents.count() === 0) { te.make({new:k.document}); }
@@ -106,6 +102,7 @@ te.documents.at(1).close({saving:k.ask});
 
 //console.log(objspec.__nodeautomation_specifierRecord__);
 
+/*
 */
 
 /*
