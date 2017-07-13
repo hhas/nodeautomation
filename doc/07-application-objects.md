@@ -40,8 +40,6 @@ The application's bundle ID (String) or process ID (Number), e.g.:
 
 ### Targeting an application by remote (`eppc:`) URL
 
-[TBC: URL support is not finished]
-
 An `eppc://` URL identifying a remote process to be controlled via Remote Apple Events. An `eppc://` URL has the following form:
 
   eppc://[user[:password]@host/Application%20Name[?[uid=#]&amp;[pid=#]
@@ -69,21 +67,27 @@ The user ID (`uid`) and process ID (`pid`) are also optional. If the process ID 
 
 ## Options
 
-[TBC: the current API needs to be revised]
-
 All `app` object constructors also accept an additional 'options' object containing zero or more of the following properties:
 
-* `hideOnLaunch` : `boolean` -- when launching a local application, should it be hidden? (default: `false`)
+* `launchOptions` : `Array of Keyword` -- zero or more launch options when targeting a local application by name/path/bundle ID (default `[k.launchWithoutActivation]`):
+	
+    [TBC: taken from NSWorkspace.LaunchOptions, though not all its options are appropriate (e.g. async)]
+    
+    * `k.launchWithErrorPresentation` -- Display an error panel to the user if a failure occurs.
+    * `k.launchInhibitingBackgroundOnly` -- Causes launch to fail if the target is background-only.
+    * `k.launchWithoutAddingToRecents` -- Do not add the app or documents to the Recents menu.
+    * `k.launchWithoutActivation` -- Launch the app but do not bring it into the foreground.
+    * `k.launchNewInstance` -- Create a new instance of the app, even if one is already running.
+    * `k.launchAndHide` -- Tell the app to hide itself as soon as it has finished launching.
+    * `k.launchAndHideOthers` -- Hide all apps except the newly launched one.
 
-* `launchNewProcess` : `boolean` -- always launch a new instance of a local application, even if it's already running (default: `false`)
+* `autoRelaunch` : `k.never`, `k.limited`, or `k.always` -- determines auto-relaunching behavior should a local application quit during use (see the "Auto-relaunching" section below) (default: `k.limited`)
 
-* `autoRelaunch` : `k.never`, `k.limited`, or `k.always` -- determines auto-relaunching behavior should a local application quit during use (see below) (default: `k.limited`)
-
-* `terminology` : `k.auto`,  `k.none`,  `k.sdef`, or `Object` -- determines how terminology is retrieved (see below) (default: `k.auto`)
+* `terminology` : `object`, `string`, `null` -- may be a custom terminology tables object or file path (see the "Static terminology" section below); if `null` (the default), terminology is automatically retrieved from the target application
 
 For example, to hide iTunes on launch and allow this `app` object to relaunch it as necessary when sending any command at any time:
 
-    var itunes = app('iTunes', {hideOnLaunch: true, autoRelaunch: k.always})
+    var itunes = app('iTunes', {launchOptions: [k.launchAndHide], autoRelaunch: k.always})
 
 
 ### More examples
@@ -209,25 +213,27 @@ Note that you can use app objects to control applications that have been quit an
 
     
 
-### Terminology options
+### Static terminology
 
-[TBC: not yet implemented]
+[TBC]
 
-The `terminology` option accepts one of the following three keywords that determine how an application's terminology should be retrieved':
+By default, an application object automatically retrieves and parses an application's SDEF terminology data the first time that object is used to construct a specifier or command.
 
+If an application's own SDEF is too defective or unretrievable to be used as-is, the `terminology` option can be used to supply correct terminology definitions instead. This is a JavaScript object containing five properties - `types`, `enumerators`, `properties`, `elements`, and `commands` - that contain the raw name-code mappings for the application's terminology.
 
-    * `k.auto` -- terminology is automatically retrieved from application in AETE format; this is the default
-    * `k.none` -- terminology is not retrieved from the application; only built-in core terms (`run`, `open`, `quit`, etc.) are available
-    * `k.sdef` -- terminology is automatically retrieved from application in SDEF format
+To export an application's SDEF to a raw terminology object or, if `outputPath` is given, a JSON-encoded file:
 
+    exportRawTerminology(applicationPath [, outputPath])
 
-Some applications have buggy "get dynamic terminology" (`ascrgdte`) handlers which prevent the `k.auto` option retrieving the correct terminology. The `k.sdef` option can be used to work around this bug by retrieving the terminology in SDEF format instead, for example:
+For example, to export an app's faulty terminology to a JSON file, where it can be manually corrected:
 
-    app('Finder', {terminology: k.sdef}).home()
+	exportRawTerminology('/Applications/ProblemApp.app', 'Users/jsmith/ProblemApp.json');
 
-When using this option, be aware that some terminology may still be missing due to bugs in OS X's automatic AETE-to-SDEF conversion.
+To import the corrected terminology file into a new application object:
+	
+	app('ProblemApp.app', {terminology: '/Users/jsmith/ProblemApp.json'})
 
+Raw terminology files are also helpful when working apps that have extremely large SDEFs (e.g. Adobe InDesign). XML bloat, plus the overhead of crossing the JS-ObjC bridge to parse it, can result in very slow startup times when retrieving terminology directly at runtime. Exporting the app's terminology to JSON file and reimporting it into scripts that target that app avoids the expensive SDEF parsing step when running those scripts.
 
-If an application's own terminology is too defective or unretrievable to be used as-is, the `terminology` option can also accept a static terminology glue. This is a JavaScript object containing five properties - `types`, `enumerators`, `properties`, `elements`, and `commands` - that contain the raw name-code mappings for the application's terminology.
 
 
