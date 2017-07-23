@@ -6,9 +6,8 @@ const na = require('./lib');
 
 const app = na.app, con = na.con, its = na.its, k = na.k, File = na.File;
 
-// note: autorelease pools not yet implemented in NodeAutomation, so will leak unless user provides their own
+// TO DO: autorelease pools not yet implemented in NodeAutomation, so will leak unless user provides their own
 
-// TO DO: error reporting is unfinished
 
 /****************************************************************************************/
 // TEST
@@ -17,7 +16,7 @@ const app = na.app, con = na.con, its = na.its, k = na.k, File = na.File;
 
 var appData = new aeappdata.AppData("bob", [], []);
 
-console.log(aesupport.formatFourCharCode(appData.pack(k[1234])('descriptorType')));
+console.log(aesupport.formatFourCharCode(appData.pack(k.fromTypeCode(1234))('descriptorType')));
 
 
 var appData = new aeappdata.AppData("bob", [], []);
@@ -112,7 +111,7 @@ te.documents.at(1).close({saving:k.ask});
 //console.log('\n\nOBSPEC', objspec.toString());
 //console.log('\nAEDESC', aedesc.toString());
 
-//console.log(k, k.name, k[0x001234EF]);
+//console.log(k, k.name, k.fromTypeCode(0x001234EF));
 
 
 */

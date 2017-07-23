@@ -1,0 +1,65 @@
+# TO DOs
+
+
+## GENERAL
+
+- update to Node 8 release? (currently implemented on Node 6), or at least confirm no changes are needed
+
+- What special JS methods do Specifier proxies need to handle? Currently handles:
+
+		Symbol.toPrimitive
+		util.inspect.custom
+		"toString"
+		Symbol.toStringTag
+		"valueOf"
+		"constructor"
+
+- IMPORTANT: where are autorelease pools required?
+
+
+## aeappdata
+
+- See file for various TODOs (there's a lot)
+
+- when unpacking NSString, NSDate and other bridged values, return wrapped ObjC instance (quicker), or cast to native JS types (safer with user code that uses typeof/instanceof to check returned values' types), or make it a toggleable compatibility option (that is safe by default)? (currently, JS values are always returned)
+
+- confirm JS bitwise operators in readIgnoringOptions() always treat numbers as UInt32 (they seem to do)
+
+
+## aedefaultterminology
+
+- review built-in terms against current AppleScript AEUT (Q. how much has AS changed/how much do we care? A. not a lot)
+
+
+## aeselectors
+
+- check specifier proxy: does it make any difference if property or elements name is checked for first, e.g. where ambiguous terminology means the same name is used for both (e.g. when nouns whose singular and plural forms are the same; 'text' being an obvious example, except that it's already special cased; have a feeling appscript terminology parser gave precedence to one, probably intentionally)
+
+- Add a `Specifier.every` attribute for explicitly indicating a conflicting property/elements name should construct an all-elements specifier, not property specifier (the default)? One minor issue with this: it does make for some ugly syntax when subsequently applying a selector to it, e.g. `character.every.at(1)`. TBH, appscript did go years without anyone running into an explicit need for it, so inclined to leave out (it is a reserved name, so could always be added in future if concrete need is found).
+
+
+## aesupport
+
+- check if NodObjC API provides a dedicated 'isObjCObject' function; currently isDescriptor() does a crude API sniff and crosses metaphorical fingers
+
+
+## aeformatter
+
+- formatter methods should never throw; instead, return opaque representation/NSAppleEventDescriptor description
+
+- formatAppleEvent function (needed for AS->JS command translator)
+
+- other TODOs in file
+
+
+## aegluetable
+
+- should `convertNameToIdentifier` convert non-C-identifier characters too (currently just trims and converts to camelCase)? Or just leave user to use JS's alternate `[...]` which allows any name to be passed as string?
+
+- Should we also worry about names starting with double-underscores (which is convention used for internal methods), considering only pathological dictionaries would ever contain such a thing? (Even if they did, could they do any damage, beyond break their own compatibility? Seems unlikely.)
+
+- SDEFParser is extremely slow on very large SDEFs, in part due to nodobjc overheads; move objc() conversions of JS string literals to global consts; try to avoid crossing JS-ObjC bridge as much as possible (e.g. consider using NSString APIs in parseFourCharCode, etc.)
+
+- other TODOs in file
+
+
