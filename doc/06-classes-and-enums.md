@@ -22,12 +22,17 @@ For your convenience, NodeAutomation treats standard Apple event types and appli
     k.ask
 
 
-Occasionally an application defines a type or enumerator without providing it with a corresponding name name. In these cases, the value will be represented as a raw AE code, e.g. `k['#ab12']`.
+Occasionally an application defines a type or enumerator without providing it with a corresponding name name. In these cases, the value will be represented as a raw AE code, e.g. `k.fromTypeCode('#ABCD')`. To construct keywords using AE codes:
+
+<pre><code>k.fromTypeCode(<var>code</var>)
+k.fromEnumCode(<var>code</var>)</code></pre>
+
+Raw codes may be written as four-char strings (printable ASCII characters only) prefixed with a '#', or as unsigned 32-bit integers.
 
 To determine if a variable contains a keyword object:
     
-    var someVariable = k.document;
-    k.isFile(someVariable);
+    var v = k.document;
+    k.isKeyword(v);
     //--> true
 
 [TO DO: Keyword.compare(); what else?]
@@ -79,8 +84,8 @@ To convert a `File` object to POSIX path string:
 
 To determine if a variable contains a `File` object:
     
-    var someVariable = new File('/');
-    File.isFile(someVariable);
+    var v = new File('/Users/jsmith');
+    File.isFile(v);
     //--> true
 
 If dealing with elderly Carbon apps that still use (now-deprecated) colon-delimited HFS path strings:
@@ -99,7 +104,7 @@ If an object contains a `class` (or `#pcls`) key, appscript will pack the remain
 
 ### Types and enumerators
 
-`typeType`, `typeEnumerated`, `typeProperty` and `typeKeyword` descriptors are unpacked as NodeAutomation keywords, e.g. `k.document`, `k.yes`. If no terminology is available, four-char code strings (indicated by `#` prefix) or OSTypes (SInt32) are used instead, e.g. `k['#foob']`, `k[0x12AB34CD]`.
+`typeType`, `typeEnumerated`, `typeProperty` and `typeKeyword` descriptors are unpacked as NodeAutomation keyword objects.
 
 
 ### Unit types
