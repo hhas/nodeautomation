@@ -14,13 +14,13 @@ Caution: It is recommended that you do not have any other documents open in Text
 
 Create a new shell window in Terminal (`/Application/Utilities/Terminal.app`) and enter `node` to launch Node.js's interactive JavaScript interpreter. 
 
-To import the NodeAutomation module into a constant named `auto`:
+To import the NodeAutomation module into a constant named `na`:
 
-    const auto = require('nodeautomation');
+    const na = require('nodeautomation');
 
 If you wish to avoid repeatedly referencing this constant when constructing new specifiers and keywords:
 
-    const app = auto.app, con = auto.con, its = auto.its, k = auto.k, File = auto.File;
+    const app = na.app, con = na.con, its = na.its, k = na.k, File = na.File;
 
 Subsequent examples in this manual assume this has already been done.
 
@@ -136,6 +136,7 @@ The above exercise uses two commands to create a new TextEdit document containin
 
 
 Incidentally, you might note that every time the `make` command is used, it returns a reference to document 1. TextEdit identifies document objects according to the stacking order of their windows, with document 1 being frontmost. When the window stacking order changes, whether as a result of a script command or GUI-based interaction, so does the order of their corresponding document objects. This means that a previously created reference such as `app('TextEdit').documents.at(1)` may now identify a different document object to before! Some applications prefer to return references that identify objects by name or unique ID rather than index to reduce or eliminate the potential for confusion, but it's an issue you should be aware of, particularly with long-running scripts where there is greater opportunity for unexpected third-party interactions to throw a spanner in the works.
+
 
 ## More on manipulating text
 

@@ -1,24 +1,20 @@
 {
   "name": "nodeautomation",
-  "description": "A high-level Apple event ('application scripting') bridge for macOS.",
+  "description": "A high-level Apple event (“AppleScript”) bridge for macOS.",
   "keywords": [
     "applescript",
     "mac",
-    "IPC",
-    "interprocess",
     "application",
     "automation",
+    "ipc",
     "appleevent",
-    "bridge",
-    "apple",
-    "macos"
+    "macos",
   ],
   "version": "0.1.0",
   "license": "TBC",
-  "author": "",
   "repository": {
     "type": "hg",
-    "url": ""
+    "url": "https://bitbucket.org/hhas/nodeautomation",
   },
   "main": "./lib/index.js",
   "scripts": {
