@@ -11,3 +11,11 @@ const app = na.app, con = na.con, its = na.its, k = na.k, File = na.File;
 
 
 console.log(k, k.document, k.fromTypeCode("#docu").__nodeautomation_pack__(), k.fromTypeCode(0x75747874))
+
+
+var v = k.documentFile;
+console.log(k.documentFile.isEqual(v),k.documentfile.isEqual(v));
+
+
+var file = new File('/Users/jsmith/Documents');
+console.log(file, file.toString(), new File('/Users/jsmith/Documents').isEqual(file), new File('/').isEqual(file));

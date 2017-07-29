@@ -57,7 +57,9 @@ console.log(f.FinderWindows[0].iconViewOptions.backgroundColor());
 
 // TEST.ID(2345).document.text.words // .slice(66, 88)
 
-const te = app('TextEdit', {terminology: '/Users/has/TextEdit.node.json'});
+const te = app('TextEdit'); // {terminology: '/Users/has/TextEdit.node.json'});
+
+te.activate();
 
 //console.log(te.documents.next());
 
