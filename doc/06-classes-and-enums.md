@@ -62,12 +62,12 @@ NodeAutomation throws on `undefined`.
 
 ### Null
 
-For convenience, NodeAutomation maps JS's `null` value to the `missing value` constant. This makes it easy to check for missing values using the standard `===` operator.
+For convenience, NodeAutomation maps Apple events' `missing value` constant to JavaScript's `null` value. This makes it easy to check for missing values using the standard `===` operator.
 
 
 ### Number
 
-JS represents all numbers internally as 64-bit floats. For compatibility NodeAutomation packs non-fractional numbers as SInt32 where possible.
+JavaScript represents all numbers internally as 64-bit floats. For compatibility NodeAutomation packs non-fractional numbers as SInt32 where possible.
 
 
 ### Strings
@@ -112,9 +112,9 @@ For backwards compatibility with elderly Carbon apps that only accept (now-depre
 
 ### Records
 
-The `typeAERecord` AE type is a struct-like data structure containing zero or more properties. NodeAutomation represents AE records as JS objects. The keys in this dict are usually application-defined keywords (e.g. `name`), although they may also be raw four-char codes (indicated by a `#` prefix) or arbitrary strings (indicated by a `$` prefix).
+The `typeAERecord` AE type is a struct-like data structure containing zero or more properties. NodeAutomation represents AE records as JavaScript objects. The keys in this dict are usually application-defined keywords (e.g. `name`), although they may also be raw four-char codes (indicated by a `#` prefix) or arbitrary strings (indicated by a `$` prefix).
 
-If an object contains a `class` (or `#pcls`) key, appscript will pack the remaining items into an AE record, then coerce it to the type specified by this `class` property. Similarly, when unpacking an record-like AEDesc with a custom type code, appscript will unpack it as a JS object with its AE type described by a `class` entry.
+If an object contains a `class` (or `#pcls`) key, appscript will pack the remaining items into an AE record, then coerce it to the type specified by this `class` property. Similarly, when unpacking an record-like AEDesc with a custom type code, appscript will unpack it as a JavaScript object with its AE type described by a `class` entry.
 
 
 ### Unbridged types

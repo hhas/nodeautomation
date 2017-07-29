@@ -8,18 +8,16 @@
     "automation",
     "ipc",
     "appleevent",
-    "macos",
+    "macos"
   ],
   "version": "0.1.0",
   "license": "TBC",
   "repository": {
     "type": "hg",
-    "url": "https://bitbucket.org/hhas/nodeautomation",
+    "url": "https://bitbucket.org/hhas/nodeautomation"
   },
   "main": "./lib/index.js",
-  "scripts": {
-  },
   "dependencies": {
-    "nodobjc": "*",
+    "nodobjc": "*"
   }
 }
