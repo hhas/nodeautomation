@@ -18,28 +18,43 @@ Or to create a new "Hello World!" document in TextEdit:
     app('TextEdit').make({new: k.document, 
                           withProperties: {text: "Hello World!"}})
 
--------
+______________________________________________________________________________
 
-Caution: This is an alpha release.
-
-E&OE. No warranty given. Use at own risk. Etc.
-
--------
-
-To build HTML documentation, run the following command to install the 
-`markdown2` package for Python:
-
-	sudo easy_install markdown2
-	
-Then `cd` to the `nodeautomation` directory and run:
-
-	./mkdoc
-
+Caution: This is an alpha release. There will be bugs and rough edges.
 
 Documentation is preliminary, being a quick and dirty translation of the 
 original appscript manual.
 
--------
+E&OE. No warranty given. Use at own risk. Etc.
+
+(See also: http://appscript.sourceforge.net/status.html)
+
+______________________________________________________________________________
+
+Install (from https://www.npmjs.com/package/nodeautomation):
+
+    npm install nodeautomation
+
+
+See: node_modules/nodeautomation/doc/index.html for documentation.
+
+______________________________________________________________________________
+
+Dependencies:
+
+- nodobjc (note: this requires XCode)
+
+______________________________________________________________________________
+
+Test:
+
+    $ node
+    >  Object.assign(this, require('nodeautomation')); undefined
+    > const fn = app('Finder')
+    > fn.home()
+    app('Finder').startupDisk.folders.named('Users').folders.named('jsmith')
+
+______________________________________________________________________________
 
 Known issues:
 
