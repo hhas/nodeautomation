@@ -93,7 +93,7 @@ def render(sourcedir, destdir):
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        src, dest = 'doc', 'htmldocs'
+        src, dest = './', '../doc'
     else:
         src, dest = sys.argv[1:]
     sourcedir = os.path.abspath(os.path.expanduser(src.decode('utf-8')))
