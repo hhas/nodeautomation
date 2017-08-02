@@ -14,13 +14,13 @@ Caution: It is recommended that you do not have any other documents open in Text
 
 Create a new shell window in Terminal (`/Application/Utilities/Terminal.app`) and enter `node` to launch Node.js's interactive JavaScript interpreter. 
 
-To import the NodeAutomation module into a constant named `na`:
+To import the NodeAutomation module into a constant named `nodeautomation`:
 
-    const na = require('nodeautomation');
+    const nodeautomation = require('nodeautomation');
 
-If you wish to avoid repeatedly referencing this constant when constructing new specifiers and keywords:
+Or, if you prefer not having to reference this constant when constructing new specifiers and keywords:
 
-    const app = na.app, con = na.con, its = na.its, k = na.k, File = na.File;
+    Object.assign(this, require('nodeautomation')); undefined;
 
 Subsequent examples in this manual assume this has already been done.
 
@@ -29,7 +29,7 @@ Subsequent examples in this manual assume this has already been done.
 
 To create new `app` object, identifying the application to be manipulated, and assign it to a variable, `te`, for easy reuse:
 
-    var te = app('TextEdit');
+    const te = app('TextEdit');
 
 The application may be identified by name or path, bundle or process ID, or, if running remotely, `eppc://` URL. If the application is local and is not already running, it will be launched automatically for you. [TBC; different method calls are required for bundle/process ID and eppc URL; in addition, remote eppc support is not yet finished]
 

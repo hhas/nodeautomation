@@ -2,7 +2,7 @@
 
 'use strict';
 
-const na = require('./lib');
+const na = require('../lib');
 
 const app = na.app, con = na.con, its = na.its, k = na.k, File = na.File;
 
