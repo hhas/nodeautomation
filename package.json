@@ -10,8 +10,8 @@
     "appleevent",
     "macos"
   ],
-  "version": "0.1.1",
-  "license": "TBC",
+  "version": "0.1.2",
+  "license": "Public Domain",
   "repository": {
     "type": "hg",
     "url": "https://bitbucket.org/hhas/nodeautomation"
