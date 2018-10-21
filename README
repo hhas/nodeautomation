@@ -49,7 +49,7 @@ ______________________________________________________________________________
 Test:
 
     $ node
-    >  Object.assign(this, require('nodeautomation')); undefined
+    > require('nodeautomation/global')
     > const fn = app('Finder')
     > fn.home()
     app('Finder').startupDisk.folders.named('Users').folders.named('jsmith')

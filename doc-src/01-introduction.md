@@ -48,8 +48,7 @@ Chapters 2 and 3 of this manual provide further information on how Apple event I
 
 ## Installing NodeAutomation
 
-[TBC once nodeautomation package is uploaded to npmjs]
-
     npm install nodeautomation
 
 
+(Requires NodObjC, which requires Xcode to install.)
