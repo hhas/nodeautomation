@@ -20,9 +20,9 @@ To import the NodeAutomation module into a constant named `nodeautomation`:
 
 Or, if you prefer not having to reference this constant when constructing new specifiers and keywords:
 
-    Object.assign(this, require('nodeautomation')); undefined;
+    require('nodeautomation/global'));
 
-Subsequent examples in this manual assume this has already been done.
+Subsequent examples in this manual assume the latter import has been used.
 
 
 ## Target TextEdit
@@ -120,10 +120,10 @@ Depending on what sort of attribute(s) the reference identifies, `get` may retur
     te.documents.at(1).get();
     // app('TextEdit').documents.at(1)
 
-    te.documents.get()
+    te.documents.get();
     // [ app('TextEdit').documents.at(1), app('TextEdit').documents.at(2) ]
 
-    te.documents.text.get()
+    te.documents.text.get();
     // ['Hello World', '']
 
 
@@ -131,7 +131,7 @@ Depending on what sort of attribute(s) the reference identifies, `get` may retur
 
 The above exercise uses two commands to create a new TextEdit document containing the text 'Hello World'. It is also possible to perform both operations using the `make` command alone by passing the value for the new document's text property via the `make` command's optional `withProperties` parameter:
 
-    te.make({ new: k.document, withProperties: {text: 'Hello World'} })
+    te.make({ new: k.document, withProperties: {text: 'Hello World'} });
     // app('TextEdit').documents.at(1)
 
 
@@ -142,7 +142,7 @@ Incidentally, you might note that every time the `make` command is used, it retu
 
 In addition to getting and setting a document's entire text by applying `get` and `set` commands to text property, it's also possible to manipulate selected sections of a document's text directly. TextEdit's `text` property contains a text object, which in turn has `character`, `word` and `paragraph` elements, all of which can be manipulated using a variety of commands - `get`, `set`, `make`, `move`, `delete`, etc. For example, to set the size of the first character of every paragraph of the front document to 24pt:
 
-    te.documents.at(1).text.paragraphs.size.set({to: 24})
+    te.documents.at(1).text.paragraphs.size.set({to: 24});
 
 
 Or to insert a new paragraph at the end of the document:
@@ -151,6 +151,6 @@ Or to insert a new paragraph at the end of the document:
           new: k.paragraph,
           withData: 'Hello Again, World\n',
           at: app.documents.at(1).text.paragraphs.end 
-      })
+      });
 
 
