@@ -97,6 +97,6 @@ Add every person with a known birthday to a group named "Birthdays":
     //      to group "Birthdays"
 
         app('Address Book').add({
-            _: app.people.where(its.birthDate.notEqualTo(null)),
+            _: app.people.where(its.birthDate.ne(null)),
             to: app.groups.named('Birthdays') });
 

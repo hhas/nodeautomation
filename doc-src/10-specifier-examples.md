@@ -83,17 +83,17 @@ Element range references
 Filter references
 
     // a reference to every document of application "TextEdit" whose text is "\n"
-       app('TextEdit').documents.where(its.text.equalTo('\n') // (i.e. all empty paragraphs)
+       app('TextEdit').documents.where(its.text.eq('\n') // (i.e. all empty paragraphs)
 
     // a reference to every paragraph of document 1 of application "Tex-Edit Plus" ¬
     //     whose first character is last character
        app('Tex-Edit Plus').documents.at(1).paragraphs.where(
-               its.characters.first.equalTo(its.characters.last))
+               its.characters.first.eq(its.characters.last))
 
     // a reference to every file of folder "Documents" of home of application "Finder" ¬
     //     whose name extension is "txt" and size &lt; 10000
        app('Finder').home.folders.named('Documents').files(
-            its.nameExtension.equalTo('txt').and(its.size.lessThan(10000)
+            its.nameExtension.eq('txt').and(its.size.lt(10000)
 
 
 Insertion location references
