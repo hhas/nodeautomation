@@ -193,7 +193,7 @@ Note that this shortcut _only_ accepts integer values; to construct by-range ref
 
 ## `where` (by test)
 
-Identifies zero or more elements whose properties and/or elements match one or more given tests. (In AppleScript, this is commonly known as a 'whose' clause.)
+Identifies zero or more elements whose properties and/or elements match one or more given tests. (In AppleScript, this is commonly known as a 'whose' (or 'where') clause.)
 
 ### Syntax
 
@@ -205,7 +205,7 @@ The `testSpecifier` values is composed of the following:
 
 * One or more generic specifiers that identify those properties and/or sub-elements to which a filter test should be applied. 
 
-* For each of those specifiers, the conditional test (e.g. `equalTo`, `isIn`) to apply to the value it identifies. 
+* For each of those specifiers, the conditional test (e.g. `eq`, `isIn`) to apply to the value it identifies. 
 
 * If more than one test is being performed, or if a true result should produce false and vice-versa, Boolean-style logic tests (`and`/`or`/`not`) should also be used to combine them into a single compound test specifier.
 
@@ -221,61 +221,53 @@ Or, if selecting an application's `document` elements based on the first word in
 
 Each `its`-based specifier allow you to apply a single comparison or containment (i.e. condition) test to the property/element(s) being tested. Each method accepts a single value, object, or property/element specifier (i.e. the value to which the specified property or element(s) should be compared).
 
-[note: comparison test method names are not yet finalized: worth getting user feedback on several long/short variations to see which they are most comfortable reading/writing/remembering]
 
 Comparison tests:
 
-    itsBasedSpecifier.lessThan(value)
-    itsBasedSpecifier.lessOrEqual(value)
-    itsBasedSpecifier.equalTo(value)
-    itsBasedSpecifier.notEqualTo(value)
-    itsBasedSpecifier.moreThan(value)
-    itsBasedSpecifier.moreOrEqual(value)
+    itsSpecifier.lt(value) // is less than
+    itsSpecifier.le(value) // is less than or equal to
+    itsSpecifier.eq(value) // is equal to
+    itsSpecifier.ne(value) // is not equal to
+    itsSpecifier.gt(value) // is greater than
+    itsSpecifier.ge(value) // is greater than or equal to
 
-
-(The following abbreviations are also allowed: `lt`, `le`, `eq`, `ne`, `gt`, `ge`. [TBC: currently not implemented])
 
 Containment tests:
 
-    itsBasedSpecifier.beginsWith(value)
-    itsBasedSpecifier.endsWith(value)
-    itsBasedSpecifier.contains(value)
-    itsBasedSpecifier.isIn(value)
-
-[TBC: also implement `doesNotBeginWith`, etc?]
+    itsSpecifier.beginsWith(value)
+    itsSpecifier.endsWith(value)
+    itsSpecifier.contains(value)
+    itsSpecifier.isIn(value)
 
 
 The following logic tests are supported:
 
-[TBC: use all-caps: `AND`, `OR`, `NOT`?]
-
-    firstTestSpecifier.and(secondTestSpecifier,...)
-    firstTestSpecifier.or(secondTestSpecifier,...)
+    testSpecifier.and(testSpecifier,...)
+    testSpecifier.or(testSpecifier,...)
     testSpecifier.not
 
 
-The `secondTestSpecifier` argument must be another conditional or logic test specifier.
 
-**Important:** These are the only operations understood by the `whose` reference form. You cannot construct test specifiers using standard JavaScript operators (e.g. `+`, `%`) or functions (`trim`, `round`), as the Apple Event Object Model does not recognize these requests and cannot perform them itself. You can still use these and other JS features to create the number, string, array, etc. values to be used as arguments in comparison and containment tests; however, if you need to perform more complex tests than AEOM allows then you will have to retrieve all of the raw data from the application then use a JS `for` loop to test and filter it yourself.
+**Important:** These are the only operations understood by the `where` reference form. You cannot construct test specifiers using standard JavaScript operators (e.g. `+`, `%`) or functions (`trim`, `round`), as the Apple Event Object Model does not recognize these requests and cannot perform them itself. You can still use these and other JS features to create the number, string, array, etc. values to be used as arguments in comparison and containment tests; however, if you need to perform more complex tests than AEOM allows then you will have to retrieve all of the raw data from the application then use a JS `for` loop to test and filter it yourself.
 
 ### Examples:
 
-    its.name.equalTo('')
-    its.size.moreThan(1024)
+    its.name.eq('')
+    its.size.gt(1024)
     its.words.first.beginsWith('A')
-    its.characters.first.equalTo(its.characters.last)
+    its.characters.first.eq(its.characters.last)
 
-    its.equalTo('').not
-    its.size.moreThan(1000).and(its.size.lessThan(100000)
+    its.ne('')
+    its.size.gt(1000).and(its.size.lt(100000))
 
-its.words.at(1).beginsWith('A')
+    its.words.at(1).beginsWith('A')
          .or(its.words.at(2).contains('ce'))
-         .or(its.words.at(1).equalTo('Foo'))
+         .or(its.words.at(1).eq('Foo'))
 
 
 When testing certain classes of element, such as words and paragraphs, you can even apply a containment test directly to it. For example, to specify every word that isn't "Wednesday" within the front TextEdit document:
 
-    app('TextEdit').documents.first.words.whose( its.notEqualTo('Wednesday') )
+    app('TextEdit').documents.first.words.where( its.ne('Wednesday') )
 
 
 ## `beginning`, `end`, `before`, `after` (insertion location)
