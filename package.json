@@ -18,6 +18,8 @@
   },
   "main": "./lib/index.js",
   "dependencies": {
-    "nodobjc": "*"
+    "objc": "*",
+    "ffi-napi": "*",
+    "ref-napi": "*"
   }
 }
