@@ -1,0 +1,425 @@
+{
+  "appleEventBridgeName": "NodeAutomation",
+  "appleEventBridgeVersion": "1.0",
+  "types": [
+    [
+      "application",
+      1667330160
+    ],
+    [
+      "color",
+      1668246642
+    ],
+    [
+      "document",
+      1685021557
+    ],
+    [
+      "item",
+      1668244074
+    ],
+    [
+      "window",
+      1668770158
+    ],
+    [
+      "attachment",
+      1635021939
+    ],
+    [
+      "attributeRun",
+      1667331186
+    ],
+    [
+      "character",
+      1667784992
+    ],
+    [
+      "paragraph",
+      1668309362
+    ],
+    [
+      "text",
+      1668577396
+    ],
+    [
+      "word",
+      1668771698
+    ],
+    [
+      "printSettings",
+      1886610804
+    ]
+  ],
+  "enumerators": [
+    [
+      "ask",
+      1634954016
+    ],
+    [
+      "no",
+      1852776480
+    ],
+    [
+      "yes",
+      2036691744
+    ],
+    [
+      "standard",
+      1819767668
+    ],
+    [
+      "detailed",
+      1819763828
+    ]
+  ],
+  "properties": [
+    [
+      "frontmost",
+      1885959014
+    ],
+    [
+      "name",
+      1886282093
+    ],
+    [
+      "version",
+      1986359923
+    ],
+    [
+      "modified",
+      1768779620
+    ],
+    [
+      "name",
+      1886282093
+    ],
+    [
+      "path",
+      1886418024
+    ],
+    [
+      "class",
+      1885564019
+    ],
+    [
+      "properties",
+      1883327564
+    ],
+    [
+      "bounds",
+      1885498980
+    ],
+    [
+      "closeable",
+      1751346274
+    ],
+    [
+      "document",
+      1685021557
+    ],
+    [
+      "floating",
+      1769170540
+    ],
+    [
+      "id",
+      1229201440
+    ],
+    [
+      "index",
+      1885955192
+    ],
+    [
+      "miniaturizable",
+      1769172334
+    ],
+    [
+      "miniaturized",
+      1886219876
+    ],
+    [
+      "modal",
+      1886220132
+    ],
+    [
+      "name",
+      1886282093
+    ],
+    [
+      "resizable",
+      1886548858
+    ],
+    [
+      "titled",
+      1886677364
+    ],
+    [
+      "visible",
+      1886808435
+    ],
+    [
+      "zoomable",
+      1769175661
+    ],
+    [
+      "zoomed",
+      1887073645
+    ],
+    [
+      "fileName",
+      1635018350
+    ],
+    [
+      "color",
+      1668246642
+    ],
+    [
+      "font",
+      1718578804
+    ],
+    [
+      "size",
+      1886679930
+    ],
+    [
+      "color",
+      1668246642
+    ],
+    [
+      "font",
+      1718578804
+    ],
+    [
+      "size",
+      1886679930
+    ],
+    [
+      "color",
+      1668246642
+    ],
+    [
+      "font",
+      1718578804
+    ],
+    [
+      "size",
+      1886679930
+    ],
+    [
+      "color",
+      1668246642
+    ],
+    [
+      "font",
+      1718578804
+    ],
+    [
+      "size",
+      1886679930
+    ],
+    [
+      "color",
+      1668246642
+    ],
+    [
+      "font",
+      1718578804
+    ],
+    [
+      "size",
+      1886679930
+    ],
+    [
+      "text",
+      1668577396
+    ],
+    [
+      "copies",
+      1819763568
+    ],
+    [
+      "collating",
+      1819763564
+    ],
+    [
+      "startingPage",
+      1819764336
+    ],
+    [
+      "endingPage",
+      1819765872
+    ],
+    [
+      "pagesAcross",
+      1819765857
+    ],
+    [
+      "pagesDown",
+      1819765860
+    ],
+    [
+      "requestedPrintTime",
+      1819767156
+    ],
+    [
+      "errorHandling",
+      1819764072
+    ],
+    [
+      "faxNumber",
+      1717663854
+    ],
+    [
+      "targetPrinter",
+      1953656946
+    ]
+  ],
+  "elements": [
+    [
+      "applications",
+      1667330160
+    ],
+    [
+      "colors",
+      1668246642
+    ],
+    [
+      "documents",
+      1685021557
+    ],
+    [
+      "items",
+      1668244074
+    ],
+    [
+      "windows",
+      1668770158
+    ],
+    [
+      "attributeRuns",
+      1667331186
+    ],
+    [
+      "characters",
+      1667784992
+    ],
+    [
+      "paragraphs",
+      1668309362
+    ],
+    [
+      "words",
+      1668771698
+    ],
+    [
+      "printSettings",
+      1886610804
+    ]
+  ],
+  "commands": [
+    {
+      "name": "close",
+      "eventClass": 1668248165,
+      "eventID": 1668050803,
+      "params": {
+        "saving": 1935767151,
+        "savingIn": 1801873772
+      }
+    },
+    {
+      "name": "count",
+      "eventClass": 1668248165,
+      "eventID": 1668183141,
+      "params": {
+        "each": 1802462060
+      }
+    },
+    {
+      "name": "delete",
+      "eventClass": 1668248165,
+      "eventID": 1684368495,
+      "params": {}
+    },
+    {
+      "name": "duplicate",
+      "eventClass": 1668248165,
+      "eventID": 1668050798,
+      "params": {
+        "to": 1768846184,
+        "withProperties": 1886545012
+      }
+    },
+    {
+      "name": "exists",
+      "eventClass": 1668248165,
+      "eventID": 1685022072,
+      "params": {}
+    },
+    {
+      "name": "get",
+      "eventClass": 1668248165,
+      "eventID": 1734702180,
+      "params": {}
+    },
+    {
+      "name": "make",
+      "eventClass": 1668248165,
+      "eventID": 1668441452,
+      "params": {
+        "new": 1802462060,
+        "at_": 1768846184,
+        "withData": 1684108385,
+        "withProperties": 1886545012
+      }
+    },
+    {
+      "name": "move",
+      "eventClass": 1668248165,
+      "eventID": 1836021349,
+      "params": {
+        "to": 1768846184
+      }
+    },
+    {
+      "name": "open",
+      "eventClass": 1634039412,
+      "eventID": 1868853091,
+      "params": {}
+    },
+    {
+      "name": "print",
+      "eventClass": 1634039412,
+      "eventID": 1885630307,
+      "params": {
+        "printDialog": 1885629543,
+        "withProperties": 1886545012
+      }
+    },
+    {
+      "name": "quit",
+      "eventClass": 1634039412,
+      "eventID": 1903520116,
+      "params": {
+        "saving": 1935767151
+      }
+    },
+    {
+      "name": "save",
+      "eventClass": 1668248165,
+      "eventID": 1935767141,
+      "params": {
+        "as": 1718383728,
+        "in": 1801873772
+      }
+    },
+    {
+      "name": "set",
+      "eventClass": 1668248165,
+      "eventID": 1936028772,
+      "params": {
+        "to": 1684108385
+      }
+    }
+  ]
+}

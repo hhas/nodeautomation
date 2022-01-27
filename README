@@ -42,7 +42,7 @@ ______________________________________________________________________________
 
 Dependencies:
 
-- nodobjc (note: this requires XCode)
+- objc (from https://www.npmjs.com/package/objc)
 
 ______________________________________________________________________________
 
@@ -75,9 +75,4 @@ won't cut it, and full XML parsers like lxml require C compilers to install.)
 If startup times prove to be a problem, the workaround will be to export the 
 application's terminology to a static glue module, then import that at runtime,
 avoiding the need to parse its SDEF every time.
-
-Ongoing bitrot in NodObjC/BridgeSupport/Apple event APIs is liable to break 
-NodeAutomation and other third-party software that rely on such technologies.
-Caveat emptor: macOS is developer quicksand for anything other than Swift+iOS.
-
 
