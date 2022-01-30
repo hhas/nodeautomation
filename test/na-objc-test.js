@@ -14,5 +14,8 @@ var te = na.app('TextEdit', {terminology: __dirname+'/TextEdit-glue.json'})
 
 te.activate()
 
-te.make({new: na.k.document, withProperties: {text: "Hello, World!"}})
+const ref = te.make({new: na.k.document, withProperties: {text: "Hello, World!"}})
 
+console.log(ref)
+
+console.log(ref.text.get())

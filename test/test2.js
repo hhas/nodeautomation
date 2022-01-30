@@ -3,6 +3,7 @@
 'use strict';
 
 const na = require('./lib');
+const aesupport = na.__aesupport;
 
 const app = na.app, con = na.con, its = na.its, k = na.k, File = na.File;
 
@@ -10,7 +11,7 @@ const app = na.app, con = na.con, its = na.its, k = na.k, File = na.File;
 
 
 
-console.log(k, k.document, k.fromTypeCode("#docu").__nodeautomation_pack__(), k.fromTypeCode(0x75747874))
+console.log(k, k.document, k.fromTypeCode("#docu")[aesupport.__packSelf](), k.fromTypeCode(0x75747874))
 
 
 var v = k.documentFile;

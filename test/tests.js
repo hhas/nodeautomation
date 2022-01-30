@@ -80,7 +80,7 @@ var objspec = te.windows.named('ABC').characters.thru(1,4).text;
 
 var ref = te.documents.text;
 //console.log('REF:', ref);
-//console.log('OBJSPEC:', te.__nodeautomation_appData__.pack(ref));
+//console.log('OBJSPEC:', te[aesupport.__appData].pack(ref));
 
 //console.log(app.documents.text.any);
 
@@ -101,7 +101,7 @@ te.documents[0].text.paragraphs.end.make({new:k.paragraph, withData:"this is mak
 te.documents.at(1).close({saving:k.ask});
 //var objspec = its.words.ID(344).lessOrEqual('Untitled').and(its.name.notEqualTo('Bob'));
 
-//console.log(objspec.__nodeautomation_specifierRecord__);
+//console.log(objspec[aesupport.__specifierRecord]);
 
 /*
 */
@@ -109,7 +109,7 @@ te.documents.at(1).close({saving:k.ask});
 /*
 
 
-//var aedesc = objspec.__nodeautomation_pack__(te.__nodeautomation_appData__);//.at(1);
+//var aedesc = objspec[aesupport.__packSelf](te[aesupport.__appData]);//.at(1);
 //console.log('\n\nOBSPEC', objspec.toString());
 //console.log('\nAEDESC', aedesc.toString());
 
