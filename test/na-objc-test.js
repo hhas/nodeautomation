@@ -3,7 +3,13 @@
 
 const na = require('nodeautomation')
 
-var te = na.app('TextEdit', {terminology: __dirname+'/TextEdit-glue.json'})
+const te = na.app('TextEdit', {terminology: __dirname+'/TextEdit-glue.json'})
+
+
+const objc = require('objc')
+
+
+let ref;
 
 //for (var i=0; i<100; i++) {
 //try {
@@ -14,8 +20,19 @@ var te = na.app('TextEdit', {terminology: __dirname+'/TextEdit-glue.json'})
 
 te.activate()
 
-const ref = te.make({new: na.k.document, withProperties: {text: "Hello, World!"}})
+ref = te.documents[0]
 
-console.log(ref)
+ref = te.make({new: na.k.document, withProperties: {text: "Hello, World!"}})
 
+
+//console.log('ref: (type='+typeof ref+')') // ref: (type=function)
+
+
+console.log(ref) // TO DO: FIX: Specifiers aren't yet displaying correctly, i.e. "[Function (anonymous)]" instead of "app('TextEdit').documents.at(1)", but they are usable
+
+
+//console.log()
+
+console.log('get text:') 
 console.log(ref.text.get())
+

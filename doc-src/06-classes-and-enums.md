@@ -87,7 +87,7 @@ An absolute POSIX path string is required; relative paths and tilde-based paths 
 To convert a `File` object to POSIX path string:
 
     var file = File('/Users/jsmith/Documents/ReadMe.txt');
-    var path = file.toString();
+    var path = String(file);
     console.log(path);
     //--> '/Users/jsmith/Documents/ReadMe.txt'
 

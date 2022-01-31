@@ -146,9 +146,7 @@ The CommandError exception describes an error raised by the target application o
 
       Methods:
 
-          toNumber() -- Mac OS error number
-
-          toString() -- formatted description of error
+          [Symbol.toPrimitive](hint) -- Mac OS error number or formatted description of error
 
 
 ## Note to AppleScript users

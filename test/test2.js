@@ -19,4 +19,4 @@ console.log(k.documentFile.isEqual(v),k.documentfile.isEqual(v));
 
 
 var file = new File('/Users/jsmith/Documents');
-console.log(file, file.toString(), new File('/Users/jsmith/Documents').isEqual(file), new File('/').isEqual(file));
+console.log(file, String(file), new File('/Users/jsmith/Documents').isEqual(file), new File('/').isEqual(file));

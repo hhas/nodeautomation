@@ -40,7 +40,7 @@ const f = app('Finder');
 try {
 console.log(f.home, f.home.items[1000]());
 } catch (e) {
-    console.log(e.toString(), '\n');
+    console.log(e[Symbol.toString](), '\n');
 }
 
 console.log(f.home.items.name());
@@ -110,8 +110,8 @@ te.documents.at(1).close({saving:k.ask});
 
 
 //var aedesc = objspec[aesupport.__packSelf](te[aesupport.__appData]);//.at(1);
-//console.log('\n\nOBSPEC', objspec.toString());
-//console.log('\nAEDESC', aedesc.toString());
+//console.log('\n\nOBSPEC', objspec[Symbol.toString]());
+//console.log('\nAEDESC', aedesc[Symbol.toString]());
 
 //console.log(k, k.name, k.fromTypeCode(0x001234EF));
 
