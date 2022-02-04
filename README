@@ -35,14 +35,6 @@ E&OE. No warranty given. Use at own risk. Etc.
 
 (See also: http://appscript.sourceforge.net/status.html)
 
-______________________________________________________________________________
-
-Install (from https://www.npmjs.com/package/nodeautomation):
-
-    npm install nodeautomation
-
-
-See: node_modules/nodeautomation/doc/index.html for documentation.
 
 ______________________________________________________________________________
 
@@ -58,21 +50,7 @@ ______________________________________________________________________________
 
 Known issues:
 
-Unlike AppleScript, which retrieves application terminology in compact, proven 
-binary AETE format, NodeAutomation currently uses the newer (and more bloated)
-XML-based SDEF support. Historically this has been problematic when obtaining 
-terminology from older Carbon-based apps that still use AETEs due to bugs in
-macOS’s built-in AETE-to-SDEF converter, resulting in missing/corrupted terms.
-Hopefully these bugs are eliminated in newer versions of macOS, but further
-testing will be required to determine if it's safe to rely on SDEF only, or 
-if AETE support will be needed to ensure full AppleScript parity.
+Slow, unacceptably so when parsing large SDEFs (this is mostly due to 'objc' 
+library alpha not yet being as fast as NodObjC); for now, use static glues
 
-In addition, very large application dictionaries (e.g. Adobe, Microsoft apps) 
-can be slow to parse due to the size of the XML and the overhead of crossing
-the JS-ObjC bridge when making very large numbers of NSXML API calls. (Parsing
-SDEFs requires XInclude support, so lightweight native JS parsers probably
-won't cut it, and full XML parsers like lxml require C compilers to install.)
-If startup times prove to be a problem, the workaround will be to export the 
-application's terminology to a static glue module, then import that at runtime,
-avoiding the need to parse its SDEF every time.
-
+`util.inspect.custom` needs work (`Proxy` wrappers currently appear in REPL)
