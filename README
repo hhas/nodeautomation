@@ -20,6 +20,12 @@ Or to create a new "Hello World!" document in TextEdit:
 
 ______________________________________________________________________________
 
+Dependencies:
+
+- objc -- https://github.com/hhas/objc
+
+______________________________________________________________________________
+
 Caution: This is an alpha release. There will be bugs and rough edges.
 
 Documentation is preliminary, being a quick and dirty translation of the 
@@ -37,12 +43,6 @@ Install (from https://www.npmjs.com/package/nodeautomation):
 
 
 See: node_modules/nodeautomation/doc/index.html for documentation.
-
-______________________________________________________________________________
-
-Dependencies:
-
-- objc (from https://www.npmjs.com/package/objc)
 
 ______________________________________________________________________________
 
