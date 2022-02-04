@@ -33,6 +33,13 @@ console.log(ref) // TO DO: FIX: Specifiers aren't yet displaying correctly, i.e.
 
 //console.log()
 
-console.log('get text:') 
-console.log(ref.text.get())
+console.log('get text:')
+let text = ref.text.get()
+console.log(text)
 
+
+try {
+	te.documents[99].get()
+} catch(e) {
+	console.log(e)
+}
