@@ -197,7 +197,7 @@ Identifies zero or more elements whose properties and/or elements match one or m
 
 ### Syntax
 
-    elements[testSpecifier]
+    elements.where(testSpecifier)
 
 
 The `testSpecifier` values is composed of the following:
