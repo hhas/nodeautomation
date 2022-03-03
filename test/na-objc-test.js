@@ -27,16 +27,17 @@ ref = te.make({new: na.k.document, withProperties: {text: "Hello, World!"}})
 
 //console.log('ref: (type='+typeof ref+')') // ref: (type=function)
 
-
+console.log('make document result:')
 console.log(ref) // e.g. app('TextEdit').documents.named('Untitled 1')
 
 
 //console.log()
 
 let text = ref.text.get()
-console.log('get text:', text) // Hello, World!
+console.log('\nget text result:', text) // Hello, World!
 
 
+console.log('\nerror reporting:')
 try {
 	te.documents[99].get()
 } catch(e) {
