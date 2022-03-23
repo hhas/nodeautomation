@@ -13,13 +13,15 @@ async function test(skipSDEF) {
 	te.activate()
 
 
-	te.make({new: na.k.document, withProperties: {text: "Hello, World!"}})
+	let d = te.make({new: na.k.document, withProperties: {text: "Hello, World!"}})
 
-	await new Promise(resolve => setTimeout(resolve, 1000)); // wait 1 sec
+//	await new Promise(resolve => setTimeout(resolve, 1000)); // wait 1 sec
 
-	te.quit()
+//	te.quit()
 
 	console.log('time: '+(Number(process.hrtime.bigint() - t)/1e9)+'sec')
+	
+	console.log(d)
 
 }
 

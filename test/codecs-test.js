@@ -43,6 +43,8 @@ value = 'hello';
 
 //value = its.property('#pnam').contains(' ')
 
+value = [k.case, k.numericStrings]
+
 console.log('PACKING:',value);
 let desc = c.pack(value);
 
