@@ -14,13 +14,9 @@ Caution: It is recommended that you do not have any other documents open in Text
 
 Create a new shell window in Terminal (`/Application/Utilities/Terminal.app`) and enter `node` to launch Node.js's interactive JavaScript interpreter. 
 
-To import the NodeAutomation module into a constant named `nodeautomation`:
+To import the NodeAutomation module:
 
-    const nodeautomation = require('nodeautomation');
-
-Or, if you prefer not having to reference this constant when constructing new specifiers and keywords:
-
-    require('nodeautomation/global'));
+    const {app, con, its, k, File, CommandError} = require('nodeautomation');
 
 Subsequent examples in this manual assume the latter import has been used.
 
@@ -82,7 +78,7 @@ Retrieving the document's text is done using the `get` command. For example:
 
 returns the result:
 
-    //--> 'Hello World'
+    'Hello World'
 
 
 This may seem counter-intuitive if you're used to dealing with AppleScript or object-oriented JS references, where evaluating a literal reference returns the value identified by that reference. However, always remember that NodeAutomation 'references' are really object specifiers - that is, query objects. while the syntax may look familiar, any similarity is purely superficial. For example, when evaluating the following literal reference:
@@ -93,7 +89,6 @@ This may seem counter-intuitive if you're used to dealing with AppleScript or ob
 the result is another 'reference' object, `app('/Applications/TextEdit.app').documents.at(1).text`, not the value being referenced (`'Hello World'`). To get the value being referenced, you have to pass the reference as the direct parameter (`_`) to TextEdit's `get` command:
 
     te.get({ _:doc.text });
-
 
 returns:
 

@@ -22,7 +22,7 @@ ______________________________________________________________________________
 
 Dependencies:
 
-- objc -- https://github.com/hhas/objc
+- objc -- https://github.com/hhas/objc (development fork)
 
 ______________________________________________________________________________
 
@@ -41,16 +41,18 @@ ______________________________________________________________________________
 Test:
 
     $ node
-    > require('nodeautomation/global')
-    > const fn = app('Finder')
-    > fn.home()
+    > const {app} = require('nodeautomation')
+    > const finder = app('Finder')
+    > finder.home()
     app('Finder').startupDisk.folders.named('Users').folders.named('jsmith')
 
 ______________________________________________________________________________
 
 Known issues:
 
-Slow, unacceptably so when parsing large SDEFs (this is mostly due to 'objc' 
-library alpha not yet being as fast as NodObjC); for now, use static glues
+Parsing an application's dictionary is very slow; for now, use static glues
 
 `util.inspect.custom` needs work (`Proxy` wrappers currently appear in REPL)
+
+Relies on several now-deprecated CoreServices/Cocoa functions/methods for
+which macOS does not provide replacements.

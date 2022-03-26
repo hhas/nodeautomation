@@ -7,11 +7,11 @@
 
 ## Command syntax
 
-A command accepts a single (optional) arguments object containing the command's direct parameter (`_`) and/or named parameters, plus standard event attributes (`sendOptions`, `withTimeout`, `ignoring`). For example, to set the text of the frontmost TextEdit document:
+A command optionally accepts a single “arguments” object which contains the command's direct parameter (`_`) and/or named parameters, plus any standard attributes (`sendOptions`, `withTimeout`, `ignoring`). For example, to set the text of the frontmost TextEdit document:
     
     app('TextEdit').set({ _: app.documents.first.text, to: "Hello, World!" });
 
-(The arguments object is required as JavaScript does not support true keyword parameters. The underscore key, `_`, indicates the direct parameter.)
+The arguments object is required as JavaScript does not support true keyword arguments. The underscore key, `_`, indicates the command’s direct parameter.
 
 If the direct parameter is an object specifier, the same command can be written more concisely like this:
 
