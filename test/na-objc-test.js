@@ -3,7 +3,7 @@
 
 const na = require('nodeautomation')
 
-const te = na.app('TextEdit', {terminology: __dirname+'/TextEdit-glue.json'})
+const te = na.app('TextEdit')//, {terminology: __dirname+'/TextEdit-glue.json'})
 
 
 const objc = require('objc')

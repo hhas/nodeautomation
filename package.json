@@ -24,6 +24,7 @@
   "dependencies": {
     "objc": "*",
     "ffi-napi": "*",
-    "ref-napi": "*"
+    "ref-napi": "*",
+    "libxmljs2": ">=0.29.0"
   }
 }

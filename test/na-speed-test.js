@@ -1,6 +1,6 @@
 #!/usr/bin/env node 
 
-const na = require('nodeautomation')
+const na = require('../lib/index')
 
 
 
@@ -25,4 +25,4 @@ async function test(skipSDEF) {
 
 }
 
-test(true) // true = use TextEdit glue; in which case entire test takes ~2.6sec (with 1.0sec of that being the sleep in middle, and most of the rest being startup overheads as objc and nodeautomation caches warm up)
+test(0) // true = use TextEdit glue; in which case entire test takes ~2.6sec (with 1.0sec of that being the sleep in middle, and most of the rest being startup overheads as objc and nodeautomation caches warm up)

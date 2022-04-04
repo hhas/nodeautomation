@@ -24,6 +24,10 @@ Dependencies:
 
 - objc -- https://github.com/hhas/objc (development fork)
 
+- libxmljs2
+- ffi-napi
+- ref-napi
+
 ______________________________________________________________________________
 
 Caution: This is an alpha release. There will be bugs and rough edges.
@@ -49,8 +53,6 @@ Test:
 ______________________________________________________________________________
 
 Known issues:
-
-Parsing an application's dictionary is very slow; for now, use static glues
 
 `util.inspect.custom` needs work (`Proxy` wrappers currently appear in REPL)
 
