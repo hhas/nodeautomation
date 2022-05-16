@@ -1,7 +1,5 @@
 # Type conversions
 
-[TO DO: reorganize]
-
 ## The `k` ("keyword") namespace
 
 For your convenience, NodeAutomation treats standard Apple event types and application-specific classes and enumerators as attributes of the top-level `k` ("keywords") object. Think of `k` as an infinitely large namespace that contains every possible name you could use. Examples:
@@ -47,7 +45,19 @@ To compare two `Keyword` objects:
 
 ## Common AE types
 
-[TO DO: need to provide table of AE type -> keyword name -> JavaScript type mappings, e.g. `typeInteger` -> `k.integer` -> JS `number`]
+    AE type             Keyword             JS type
+    
+    typeBoolean         k.boolean           Boolean
+    typeInteger         k.integer           Number
+    typeFloat           k.real              Number
+    typeUnicodeText     k.UnicodeText       String
+    typeLongDateTime    k.date              Date
+    typeAlias           k.alias             File
+    typeFileURL         k.fileURL           File
+    typeType            k.typeClass         Keyword
+    typeEnumerated      k.constant          Keyword
+    typeAEList          k.list              Array
+    typeAERecord        k.record            Object
 
 
 ## Type mapping notes
@@ -79,14 +89,14 @@ Note that while `typeUnicodeText` was formally deprecated in Mac OS X 10.4+ in f
 
 All file-related AE types, both current and deprecated, are represented as `File` objects. All file paths are packed and unpacked as `typeFileURL`, coercing as needed; alias and bookmark AE types are not preserved. For example, to open a file named `ReadMe.txt` in the `Documents` folder of user `jsmith`:
 
-    var file = File('/Users/jsmith/Documents/ReadMe.txt');
+    var file = new File('/Users/jsmith/Documents/ReadMe.txt');
     app('TextEdit').open({_:file});
 
 An absolute POSIX path string is required; relative paths and tilde-based paths are not [currently?] accepted.
 
 To convert a `File` object to POSIX path string:
 
-    var file = File('/Users/jsmith/Documents/ReadMe.txt');
+    var file = new File('/Users/jsmith/Documents/ReadMe.txt');
     var path = String(file);
     console.log(path);
     //--> '/Users/jsmith/Documents/ReadMe.txt'
@@ -103,7 +113,7 @@ To compare two `File` objects (note: this only checks for exact path string equa
     new File('/Users/jsmith').isEqual(v);
     //--> true
 
-For backwards compatibility with elderly Carbon apps that only accept (now-deprecated) colon-delimited HFS path strings:
+For backwards compatibility with older Carbon apps that only accept (now-deprecated) colon-delimited HFS path strings:
 
     var file = File.fromHFSPath('Macintosh HD:Users:jsmith:Documents:ReadMe.txt');
     file.toHFSPath();
@@ -119,8 +129,8 @@ If an object contains a `class` (or `#pcls`) key, appscript will pack the remain
 
 ### Unbridged types
 
-Unit types (e.g. `2.54 as inches`) are primarily an native AppleScript language feature and generally not supported or used by scriptable applications. Unsupported by NodeAutomation. (If required, they are generally constructed as an `NSAppleEventDescriptor` whose `descriptorType` indicates the unit type and whose `data` contains the numeric value as 64-bit IEEE floating point number.)
+Unit types (e.g. `2.54 as inches`) are primarily an native AppleScript language feature and generally not supported or used by scriptable applications. Unsupported by NodeAutomation.
 
-The Apple Event Manager defines many other AE types whose names and codes are defined by NodeAutomation for completeness. A few of these types are of occasional interest to users, the rest can simply be ignored. Unbridged values will be represented as NodObjC-wrapped `NSAppleEventDescriptor` objects (equivalent to `«data TYPE…»` objects in AppleScript).
+The Apple Event Manager defines many other AE types whose names and codes are defined by NodeAutomation for completeness. A few of these types are of occasional interest to users, the rest can simply be ignored. Unbridged values will be represented as `AEOpaqueDescriptor` objects (equivalent to `«data TYPE…»` objects in AppleScript).
 
 

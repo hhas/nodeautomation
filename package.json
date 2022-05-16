@@ -10,10 +10,10 @@
     "appleevent",
     "macos"
   ],
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "Public Domain",
   "repository": {
-    "type": "hg",
+    "type": "git",
     "url": "https://github.com/hhas/nodeautomation"
   },
   "main": "./lib/index.js",
@@ -22,9 +22,14 @@
   	"node": ">=14.0.0"
   },
   "dependencies": {
-    "objc": "*",
+    "objc": "git://github.com/hhas/objc",
     "ffi-napi": "*",
     "ref-napi": "*",
     "libxmljs2": ">=0.29.0"
-  }
+  },
+  "files": [
+  	"doc",
+  	"global.js",
+  	"lib"
+  ]
 }

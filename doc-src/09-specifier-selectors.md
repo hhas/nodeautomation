@@ -150,8 +150,6 @@ The `start` and `stop` values may be integers, strings, and/or `app` or `con`-ba
 
 When positive integer values are given, the `thru` method (like `at`) starts counting elements from 1, not zero, so `1` indicates the first element, `2` the second, etc.
 
-[TO DO: the following needs reworked to make it easier to follow: start with the simple by-index form first and work up to the more complex forms from there]
-
 The beginning and end elements are declared relative to the object containing the elements being selected. NodeAutomation defines a top-level `con` object to indicate the current elements' container, from which you can construct generic specifiers to identify the exact element to use as the start or end of the range. For example, the following generic specifier indicate the third paragraph of the currrent container object:
 
     con.paragraphs.at(3)

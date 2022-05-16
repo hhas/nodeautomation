@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
+
 # -*- coding: utf-8 -*-
 
 """ Generate HTML user guide (doc-html) from Markdown files (doc-source). 
@@ -18,7 +19,7 @@ Notes:
 import os, os.path, re, shutil, sys
 from markdown2 import markdown
 
-kPageTemplate = u'''\
+kPageTemplate = '''\
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
@@ -38,25 +39,25 @@ kPageTemplate = u'''\
     </body>
 </html>
 '''
-kNavlink = u'<a href="{}">{}</a>'
+kNavlink = '<a href="{}">{}</a>'
 
 def esc(s):
-    return s.replace(u'&', u'&amp;').replace(u'<', u'&lt;').replace(u'>', u'&gt;').replace(u'"', u'&quot;')
+    return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
 
 def  render_toc(pages): # (url, title, content)
-    navbar = kNavlink.format(pages[0][1], u'next')
-    toc = u'<h2>Table of contents</h2>\n<ol>\n{}</ol>'.format(
-            u'\n'.join(u'\t<li><a href="{}">{}</a></li>\n'.format(p[1], esc(p[2])) for p in pages))
-    return kPageTemplate.format(title=u'NodeAutomation', heading=u'NodeAutomation', navbar=navbar, content=toc)
+    navbar = kNavlink.format(pages[0][1], 'next')
+    toc = '<h2>Table of contents</h2>\n<ol>\n{}</ol>'.format(
+            '\n'.join('\t<li><a href="{}">{}</a></li>\n'.format(p[1], esc(p[2])) for p in pages))
+    return kPageTemplate.format(title='NodeAutomation', heading='NodeAutomation', navbar=navbar, content=toc)
 
 def render_page(links, title, content):
-    return kPageTemplate.format(title=u'NodeAutomation | '+esc(title), heading=esc(title),
-            navbar=u' | '.join(kNavlink.format(url, esc(title)) for url, title in links), 
+    return kPageTemplate.format(title='NodeAutomation | '+esc(title), heading=esc(title),
+            navbar=' | '.join(kNavlink.format(url, esc(title)) for url, title in links), 
             content=markdown(content.strip(), tab_width=4) )
     
 def write(destdir, name, html):
     with open(os.path.join(destdir, name), 'w') as f:
-        f.write(html.encode('utf-8'))
+        f.write(html)
 
 
 def render(sourcedir, destdir):
@@ -69,7 +70,7 @@ def render(sourcedir, destdir):
             idx, newname = name.split('-', 1)
             outpath = os.path.join(destdir, )
             with open(inpath) as f:
-                title, content = f.read().decode('utf-8').strip().split('\n', 1)
+                title, content = f.read().strip().split('\n', 1)
                 pages.append((int(idx), newname.rstrip('md')+'html', title.strip('# '), content.lstrip()))
         else: # copy other files directly
             shutil.copyfile(inpath, os.path.join(destdir, name))
@@ -96,8 +97,8 @@ if __name__ == '__main__':
         src, dest = './', '../doc'
     else:
         src, dest = sys.argv[1:]
-    sourcedir = os.path.abspath(os.path.expanduser(src.decode('utf-8')))
-    destdir = os.path.abspath(os.path.expanduser(dest.decode('utf-8')))
+    sourcedir = os.path.abspath(os.path.expanduser(src))
+    destdir = os.path.abspath(os.path.expanduser(dest))
     render(sourcedir, destdir)
 
 
