@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>NodeAutomation | Command examples</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="all"><!--@import url(full.css);--></style>
+    </head>
+    <body>
+        <div id="wrap">
+            <div id="main">
+                <h1>Command examples</h1>
+                <div class="navbar"><a href="application-commands.html">back</a> | <a href="index.html">index</a> | <a href="performance-issues.html">next</a></div>
+                <h2><code>get</code></h2>
+
+<p>Get the name of every folder in the user's home folder:</p>
+
+<pre><code>// tell application "Finder" to get name of every folder of home
+
+   app('Finder').get({ _:app.home.folders.name });
+</code></pre>
+
+<p>Note that if the direct parameter is omitted from the parameter list, the object specifier that the command is invoked on is used instead. For example, the above example would normally be written as:</p>
+
+<pre><code>app('Finder').home.folders.name.get();
+</code></pre>
+
+<p>which for convenience can be further abbreviated to this:</p>
+
+<pre><code>app('Finder').home.folders.name();
+</code></pre>
+
+<h2><code>set</code></h2>
+
+<p>Set the content of a TextEdit document:</p>
+
+<pre><code>// tell application "TextEdit" to set text of document 1 to "Hello World"
+
+   app('TextEdit').documents.at(1).text.set({ to: 'Hello World' });
+</code></pre>
+
+<h2><code>count</code></h2>
+
+<p>Count the words in a TextEdit document:</p>
+
+<pre><code>// tell application "TextEdit" to count words of document 1
+
+   app('TextEdit').documents.at(1).words.count();
+</code></pre>
+
+<p>Count the items in the current user's home folder:</p>
+
+<pre><code>// tell application "Finder" to count items of home
+
+   app('Finder').home.count({ each: k.item });
+</code></pre>
+
+<p>(Be aware that applications such as Finder whose AE support is not Cocoa-based may <em>require</em> the <code>each</code> parameter to be supplied, even though their dictionaries indicate it is optional.)</p>
+
+<h2><code>make</code></h2>
+
+<p>Create a new TextEdit document:</p>
+
+<pre><code>// tell application "TextEdit" to make new document ¬
+//      with properties {text:"Hello World\n"}
+
+   app('TextEdit').make({ new: k.document,
+      withProperties: {text: 'Hello World\n'} });
+</code></pre>
+
+<p>Append text to a TextEdit document:</p>
+
+<pre><code>// tell application "TextEdit" to make ¬
+//      new paragraph ¬
+//      at end of text of document 1 ¬
+//      with data "Yesterday\nToday\nTomorrow\n"
+
+   app('TextEdit').make({ 
+        new: k.paragraph,
+          at: app.documents.at(1).text.end,
+          withData: 'Yesterday\nToday\nTomorrow\n' });
+</code></pre>
+
+<p>Note that the <code>make</code> command's <code>at</code> parameter can be omitted for convenience, in which case the object specifier that the command is called on is used instead:</p>
+
+<pre><code>app('TextEdit').documents.at(1).text.end.make({
+      new: k.paragraph, withData: 'Yesterday\nToday\nTomorrow\n' });
+</code></pre>
+
+<h2><code>duplicate</code></h2>
+
+<p>Duplicate a folder to a disk, replacing an existing item if one exists:</p>
+
+<pre><code>\\ tell application "Finder" ¬
+\\      duplicate folder "Projects" of home to disk "Work" with replacing
+\\ end tell
+
+   app('Finder').home.folders.named('Projects').duplicate({
+          to: app.disks.named('Work'), replacing: true });
+</code></pre>
+
+<h2><code>add</code></h2>
+
+<p>Add every person with a known birthday to a group named "Birthdays":</p>
+
+<pre><code>// tell application "Address Book" to add ¬
+//      every person whose birth date is not missing value ¬
+//      to group "Birthdays"
+
+    app('Address Book').add({
+        _: app.people.where(its.birthDate.ne(null)),
+        to: app.groups.named('Birthdays') });
+</code></pre>
+
+            </div>
+        </div>
+        <div id="footer"><div class="navbar"><a href="application-commands.html">back</a> | <a href="index.html">index</a> | <a href="performance-issues.html">next</a></div></div>
+    </body>
+</html>

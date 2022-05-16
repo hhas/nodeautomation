@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>NodeAutomation | Application objects</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="all"><!--@import url(full.css);--></style>
+    </head>
+    <body>
+        <div id="wrap">
+            <div id="main">
+                <h1>Application objects</h1>
+                <div class="navbar"><a href="classes-and-enums.html">back</a> | <a href="index.html">index</a> | <a href="object-specifiers.html">next</a></div>
+                <h2>Creating application objects</h2>
+
+<p>Before you can communicate with a scriptable application, you must call the app object to create an application object. For example:</p>
+
+<pre><code>var textedit = app.named('TextEdit');
+</code></pre>
+
+<p>To target an application you must call one of the <code>app</code> object methods: <code>named</code>, <code>at</code>, <code>ID</code>, <code>currentApplication</code>.</p>
+
+<h3>Targeting an application by name or full path</h3>
+
+<p>The application's file name or full POSIX path, e.g.:</p>
+
+<pre><code>app.named('TextEdit')
+app.named('TextEdit.app')
+app.named('/Applications/TextEdit.app')
+</code></pre>
+
+<p>If only a file name is provided, NodeAutomation uses LaunchServices to look up the application's full path. An <code>.app</code> suffix is optional. e.g. Given the name <code>'TextEdit'</code>, NodeAutomation first searches for an application with that exact file name; if none is found, it automatically adds an <code>.app</code> suffix (<code>'TextEdit.app'</code>) and tries again.</p>
+
+<p>For convenience, this can be (and normally is) shortened to <code>app(name)</code>:</p>
+
+<pre><code>app('TextEdit');
+app('TextEdit.app'`);
+app('/Applications/TextEdit.app');
+</code></pre>
+
+<h3>Targeting an application by bundle ID or process ID</h3>
+
+<p>The application's bundle ID (String) or process ID (Number), e.g.:</p>
+
+<pre><code>app.ID('com.apple.textedit')
+
+app.ID(5687)
+</code></pre>
+
+<p>(This method can also accept a NodObjC-wrapped <code>NSAppleEventDescriptor</code> that identifies the target application.)</p>
+
+<h3>Targeting an application by remote (<code>eppc:</code>) URL</h3>
+
+<p>An <code>eppc://</code> URL identifying a remote process to be controlled via Remote Apple Events. An <code>eppc://</code> URL has the following form:</p>
+
+<p>eppc://[user[:password]@host/Application%20Name[?[uid=#]&amp;[pid=#]</p>
+
+<p>For example, to target the <code>TextEdit</code> process on the Mac named <code>my-mac.local</code>, logging into that Mac as user <code>jsmith</code>:</p>
+
+<pre><code>app.at('eppc://jsmith@my-mac.local/TextEdit')
+</code></pre>
+
+<p>The host name/IP address and the process name (case-sensitive) are required. </p>
+
+<p>The username and password are optional: if omitted, the OS will obtain this information from the user's keychain or display a dialog asking the user to input one or both values. (See System Preferences' Sharing panel help for configuring Remote Apple Events access on remote machines.)</p>
+
+<p>The user ID (<code>uid</code>) and process ID (<code>pid</code>) are also optional. If the process ID is given, the process name will be ignored. For example, if multiple user accounts are already active on that machine, the following URL targets the TextEdit process belonging to the first logged-in user (ID 501):</p>
+
+<pre><code>app.at('eppc://jsmith@my-mac.local/TextEdit?uid=501')
+</code></pre>
+
+<h3>Targeting the host process</h3>
+
+<pre><code>app.currentApplication()
+</code></pre>
+
+<h2>Options</h2>
+
+<p>All <code>app</code> object constructors also accept an additional 'options' object containing zero or more of the following properties:</p>
+
+<ul>
+<li><p><code>launchOptions</code> : <code>Array of Keyword</code> -- zero or more launch options when targeting a local application by name/path/bundle ID (default <code>[k.launchWithoutActivation]</code>):</p>
+
+<p>[TBC: taken from NSWorkspace.LaunchOptions, though not all its options are appropriate (e.g. async)]</p>
+
+<ul>
+<li><code>k.launchWithErrorPresentation</code> -- Display an error panel to the user if a failure occurs.</li>
+<li><code>k.launchInhibitingBackgroundOnly</code> -- Causes launch to fail if the target is background-only.</li>
+<li><code>k.launchWithoutAddingToRecents</code> -- Do not add the app or documents to the Recents menu.</li>
+<li><code>k.launchWithoutActivation</code> -- Launch the app but do not bring it into the foreground.</li>
+<li><code>k.launchNewInstance</code> -- Create a new instance of the app, even if one is already running.</li>
+<li><code>k.launchAndHide</code> -- Tell the app to hide itself as soon as it has finished launching.</li>
+<li><code>k.launchAndHideOthers</code> -- Hide all apps except the newly launched one.</li>
+</ul></li>
+<li><p><code>autoRelaunch</code> : <code>k.never</code>, <code>k.limited</code>, or <code>k.always</code> -- determines auto-relaunching behavior should a local application quit during use (see the "Auto-relaunching" section below) (default: <code>k.limited</code>)</p></li>
+<li><p><code>terminology</code> : <code>object</code>, <code>string</code>, <code>null</code> -- may be a custom terminology tables object or file path (see the "Static terminology" section below); if <code>null</code> (the default), terminology is automatically retrieved from the target application</p></li>
+</ul>
+
+<p>For example, to hide iTunes on launch and allow this <code>app</code> object to relaunch it as necessary when sending any command at any time:</p>
+
+<pre><code>var itunes = app('iTunes', {launchOptions: [k.launchAndHide], autoRelaunch: k.always})
+</code></pre>
+
+<h3>More examples</h3>
+
+<pre><code>var cal = app('Calendar');
+
+var textedit = app('TextEdit.app');
+
+var safari = app('/Applications/Safari');
+
+var addressbook = app.ID('com.apple.addressbook');
+
+finder = app.at('eppc://192.168.10.1/Finder');
+
+itunes = app.at('eppc://Jan%20Smith@media-mac.local/iTunes');
+</code></pre>
+
+<h2>Basic commands</h2>
+
+<p>All applications should respond to the following commands:</p>
+
+<ul>
+<li><code>run()</code> -- Run an application. Most applications will open an empty, untitled window.</li>
+<li><code>launch()</code> -- Launch an application without sending it a <code>run</code> event. Applications that normally open a new, empty document upon launch won't do so.</li>
+<li><code>activate()</code> -- Bring the application to the front.</li>
+<li><code>reopen()</code> -- Reactivate a running application. Some applications will open a new untitled window if no window is open.</li>
+<li><code>open(value)</code> -- Open the specified object(s). The value is list of objects to open, typically a list of <code>Path</code> objects.</li>
+<li><code>print(value)</code> -- Print the specified object(s). The value is a list of objects to print, typically a list of <code>Path</code> objects.</li>
+<li><code>quit({saving: value})</code> -- Quit an application. The <code>saving</code> value is one of the following: <code>k.yes</code>, <code>k.ask</code>, or <code>k.no</code>, indicating whether or not any currently open documents should be saved before quitting.</li>
+</ul>
+
+<p>Note that NodeAutomation will automatically run an application in order to get its terminology. To start an application with a <code>launch</code> event instead of the usual <code>run</code> event, the launch command must be used immediately after an application object is created (i.e. before constructing any object specifiers or sending other commands).</p>
+
+<p>Some applications may provide their own definitions of some or all of these commands, so check their terminology before use.</p>
+
+<p>NodeAutomation also defines <code>get</code> and <code>set</code> commands for any scriptable application that doesn't supply its own definitions:</p>
+
+<pre><code>get({ _:specifier }) -- Get the data for an object.
+    specifier -- the object for the command
+    Result: anything -- the reply for the command
+
+set({ _:specifier, to: value }) -- Set an object's data.
+    specifier -- the object for the command
+    to : anything -- The new value.
+</code></pre>
+
+<p>Note that these commands are only useful when targetting applications that define an Apple Event Object Model as part of their Apple event interface, or when targetting stay-open script applications created by Script Editor.</p>
+
+<h2>Local application launching notes</h2>
+
+<p>Note: the following information only applies to local applications as NodeAutomation cannot directly launch applications on a remote Mac. To control a remote application, the application must be running beforehand or else launched indirectly (e.g. by using the remote Mac's Finder to open it).</p>
+
+<h3>How applications are identified</h3>
+
+<p>When you create an app object by application name or bundle ID, NodeAutomation uses LaunchServices to locate an application matching that description. If you have more than one copy of the same application installed, you can identify the one you want by providing its full path, otherwise LaunchServices will identify the newest copy for you.</p>
+
+<h3>Checking if an application is running</h3>
+
+<p>You can check if the application specified by an Application object is currently running by getting its <code>isRunning</code> property. This is useful if you don't want to perform commands on an application that isn't already running. For example:</p>
+
+<pre><code>var te = app('TextEdit');
+// Only perform TextEdit-related commands if it's already running:
+if (te.isRunning) {
+  // all TextEdit-related code goes here...
+}
+</code></pre>
+
+<p>Remember that NodeAutomation automatically launches a non-running application the first time your script refers to any of its properties, elements or commands. To avoid accidental launches, all code relating to that application must be included in a conditional block that only executes if <code>isRunning</code> returns <code>true</code>.</p>
+
+<h3>Launch errors</h3>
+
+<p>If the application can't be launched for some reason (e.g. if it's in the Trash), a "can't launch application" error will be raised. This provides a description of the problem (if it's a standard LaunchServices error) along with the original OS error number.</p>
+
+<h3>Using <code>launch</code> vs <code>run</code></h3>
+
+<p>[TBC: <code>launch</code> command is not yet implemented]</p>
+
+<p>When NodeAutomation launches a non-running application, it normally sends it a <code>run</code> command as part of the launching process. If you wish to avoid this, you should start the application by sending it a <code>launch</code> command before doing anything else. For example:</p>
+
+<pre><code>var te = app('TextEdit');
+te.launch();
+// other TextEdit-related code goes here...
+</code></pre>
+
+<p>This is useful when you want to start an application without it going through its normal startup procedure. For example, the above script will launch TextEdit without causing it to display a new, empty document (its usual behaviour).</p>
+
+<p><code>launch</code> is also useful if you need to send a non-running application an <code>open</code> command as its very first instruction. For example, to send an open command to a non-stay-open application that batch processes one or more dropped files then quits again, you must first start it using <code>launch</code>, then send it an <code>open</code> command with the files to process. If you forget to do this, the application will first receive a <code>run</code> command and quit again before the <code>open</code> command can be handled.</p>
+
+<h3>Auto-relaunching</h3>
+
+<p>As soon as you start to construct an object specifier or command using a newly created Application object, if the application is not already running then NodeAutomation will automatically launch it in order to obtain its terminology.</p>
+
+<p>If the target application has stopped running since the app object was created, trying to send it a command using that app object will normally result in an invalid connection error (-609), unless that command is <code>run</code> or <code>launch</code>. This restriction prevents NodeAutomation accidentally restarting an application that has unexpectedly quit while a script is controlling it. Scripts can restart the application by sending an explicit <code>run</code> or <code>launch</code> command, or by creating a new <code>app</code> object for it.</p>
+
+<p>An <code>app</code> object's auto-relaunching behaviour can be modified by supplying an options object containing an <code>autoRelaunch</code> property with one of the following keyword values:</p>
+
+<ul>
+<li><code>k.never</code> - Sending any command to a previously quit application will produce an 'invalid connection' error.</li>
+<li><code>k.limited</code> - A previously quit application will be automatically relaunched when a run or launch command is sent; other commands will produce an 'invalid connection' error. This is the default behaviour.</li>
+<li><code>k.always</code> - A previously quit application will be automatically relaunched when any command is sent. This is the same behaviour as AppleScript.</li>
+</ul>
+
+<p>For example:</p>
+
+<pre><code>var itunes = app('iTunes', {autoRelaunch: k.always});
+// rest of code goes here...
+</code></pre>
+
+<p>Note that you can use app objects to control applications that have been quit and restarted since the app object was created. NodeAutomation will automatically update the app object's process serial number information as needed, as long as the application is running at the time.</p>
+
+<h3>Static terminology</h3>
+
+<p>By default, an application object automatically retrieves and parses an application's SDEF terminology data the first time that object is used to construct a specifier or command.</p>
+
+<p>If an application's own SDEF is too defective or unretrievable to be used as-is, the <code>terminology</code> option can be used to supply correct terminology definitions instead. This is a JavaScript object containing five properties - <code>types</code>, <code>enumerators</code>, <code>properties</code>, <code>elements</code>, and <code>commands</code> - that contain the raw name-code mappings for the application's terminology.</p>
+
+<p>To export an application's SDEF to a raw terminology object or, if <code>outputPath</code> is given, a JSON-encoded file:</p>
+
+<pre><code>exportRawTerminology(applicationPath [, outputPath])
+</code></pre>
+
+<p>For example, to export an app's faulty terminology to a JSON file, where it can be manually corrected:</p>
+
+<pre><code>exportRawTerminology('/Applications/ProblemApp.app', 'Users/jsmith/ProblemApp.json');
+</code></pre>
+
+<p>To import the corrected terminology file into a new application object:</p>
+
+<pre><code>app('ProblemApp.app', {terminology: '/Users/jsmith/ProblemApp.json'})
+</code></pre>
+
+<p>Raw terminology files are also helpful when working apps that have extremely large SDEFs (e.g. Adobe InDesign). XML bloat, plus the overhead of crossing the JS-ObjC bridge to parse it, can result in very slow startup times when retrieving terminology directly at runtime. Exporting the app's terminology to JSON file and reimporting it into scripts that target that app avoids the expensive SDEF parsing step when running those scripts.</p>
+
+            </div>
+        </div>
+        <div id="footer"><div class="navbar"><a href="classes-and-enums.html">back</a> | <a href="index.html">index</a> | <a href="object-specifiers.html">next</a></div></div>
+    </body>
+</html>

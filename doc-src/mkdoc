@@ -72,7 +72,7 @@ def render(sourcedir, destdir):
             with open(inpath) as f:
                 title, content = f.read().strip().split('\n', 1)
                 pages.append((int(idx), newname.rstrip('md')+'html', title.strip('# '), content.lstrip()))
-        else: # copy other files directly
+        elif name != 'mkdoc': # copy other files directly
             shutil.copyfile(inpath, os.path.join(destdir, name))
     pages.sort()
     write(destdir, 'index.html', render_toc(pages))
@@ -94,7 +94,7 @@ def render(sourcedir, destdir):
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        src, dest = './', '../doc'
+        src, dest = './', '../docs'
     else:
         src, dest = sys.argv[1:]
     sourcedir = os.path.abspath(os.path.expanduser(src))

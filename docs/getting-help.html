@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>NodeAutomation | Getting help</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="all"><!--@import url(full.css);--></style>
+    </head>
+    <body>
+        <div id="wrap">
+            <div id="main">
+                <h1>Getting help</h1>
+                <div class="navbar"><a href="tutorial.html">back</a> | <a href="index.html">index</a> | <a href="classes-and-enums.html">next</a></div>
+                <h2>ASDictionary</h2>
+
+<p>ASDictionary, available from the appscript website's <a href="http://appscript.sourceforge.net/tools.html">tools page</a>, provides a convenient GUI interface for exporting application terminology resources in plain text and HTML formats. ASDictionary can export HTML dictionaries in both single-file and frame-based formats.</p>
+
+<h2>Keyword conversion</h2>
+
+<p>[caution: keyword conversion rules are not yet finalized, so this might change]</p>
+
+<p>Because application terminology resources specify AppleScript-style keywords for class, property, command, etc. names, NodeAutomation uses the following rules to translate these keywords to legal JS identifiers:</p>
+
+<ul>
+<li><p>Characters a-z, A-Z, 0-9 and underscores (<code>_</code>) are preserved.</p></li>
+<li><p>Spaces, hyphens (<code>-</code>) and forward slashes (<code>/</code>) are removed, and the following word capitalized (e.g. <code>document files</code> → <code>documentFiles</code>).</p></li>
+<li><p>Ampersands (<code>&amp;</code>) are replaced by the word <code>And</code>.</p></li>
+<li><p>All other characters are converted to 0x00-style hexadecimal representations surrounded by underscores.</p></li>
+<li><p>Names that match standard JS value/function names or names already used by NodeAutomation have an underscore appended. </p></li>
+<li><p>If the first character is uppercase, this is currently preserved, e.g. <code>RGB color</code> → <code>RGBColor</code>. [TO DO: this rule should probably change to match standard JS naming conventions, e.g. <code>rgbColor</code>, as linters will complain about a leading uppercase char in a non-class name]</p></li>
+<li><p>Names that match the following names [TBC] reserved by nodeautomation have an underscore appended: </p>
+
+<pre><code>at                and
+named             or
+ID                not
+previous          customRoot
+next              launch
+slice             isRunning
+thru              property
+where             elements
+first             sendAppleEvent
+middle            help
+last              asType
+any               sendOptions
+every             withTimeout
+beginning         ignoring
+end               toString
+before            valueOf
+after             constructor
+lt                isSpecifier
+le                isKeyword
+eq                fromTypeCode
+ne                fromEnumCode
+gt
+ge
+beginsWith
+endsWith
+contains
+isIn
+</code></pre></li>
+<li><p>NodeAutomation defines default terminology for standard type classes such as <code>integer</code> and <code>UnicodeText</code>, and standard commands such as <code>open</code> and <code>quit</code>. If an application-defined name matches a built-in name but has a different Apple event code, NodeAutomation will append an underscore to the application-defined name.</p></li>
+</ul>
+
+            </div>
+        </div>
+        <div id="footer"><div class="navbar"><a href="tutorial.html">back</a> | <a href="index.html">index</a> | <a href="classes-and-enums.html">next</a></div></div>
+    </body>
+</html>

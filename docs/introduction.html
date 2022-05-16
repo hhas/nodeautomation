@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>NodeAutomation | Introduction</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="all"><!--@import url(full.css);--></style>
+    </head>
+    <body>
+        <div id="wrap">
+            <div id="main">
+                <h1>Introduction</h1>
+                <div class="navbar"><a href="index.html">index</a> | <a href="overview.html">next</a></div>
+                <p>The NodeAutomation bridge allows 'AppleScriptable' applications to be controlled by Node.js (JavaScript) scripts.</p>
+
+<p>For example, to get the value of the first paragraph of the topmost document in TextEdit:</p>
+
+<pre><code>app('TextEdit').documents.at(1).paragraphs.at(1).get()
+</code></pre>
+
+<p>This is equivalent to the AppleScript statement:</p>
+
+<pre><code>tell application "TextEdit" to get paragraph 1 of document 1
+</code></pre>
+
+<p>Or to create a new "Hello World!" document in TextEdit:</p>
+
+<pre><code>app('TextEdit').make({new: k.document, 
+                      withProperties: {text: "Hello World!"}})
+</code></pre>
+
+<p>which is equivalent to this:</p>
+
+<pre><code>tell app "TextEdit" to make new document ¬
+                          with properties {text: "Hello World!"}
+</code></pre>
+
+<h2>Before you start...</h2>
+
+<p>In order to use NodeAutomation effectively, you will need to understand the differences between the Apple event and JavaScript object systems.</p>
+
+<p>In contrast to the familiar object-oriented approach of other inter-process communication systems such as COM and Distributed Objects, Apple event IPC is based on a combination of <em>remote procedure calls</em> and <em>first-class queries</em> - somewhat analogous to using XPath over XML-RPC.</p>
+
+<p>While NodeAutomation borrows from JS's own OO syntax for conciseness and readability, like AppleScript, it behaves according to Apple event rules. Apple event queries are much more powerful and expressive than JS's OO references, so cannot be adequately described using only standard OO syntax and idioms. As a result, JS users will discover that some things work differently in NodeAutomation from what they're used to. For example:</p>
+
+<ul>
+<li><p>Object elements are one-indexed, not zero-indexed as in JS arrays. While NodeAutomation does recognize JS's own zero-indexed <code>ref[...]</code> and <code>ref.slice(...)</code> notations as a convenience, most 'references' can only be constructed by using NodeAutomation's own 'reference form' methods: <code>at</code>, <code>named</code>, <code>thru</code>, <code>where</code>, etc.</p></li>
+<li><p>Evaluating a 'reference' to a property of an application object, e.g. <code>app('TextEdit').documents.at(1).name</code> does not automatically return the property's value. It merely returns an object specifier (query) that describes the location of that property (<code>app('TextEdit').documents.at(1).name</code>). To retrieve that property's value, the object specifier must be sent to the application in a <code>get</code> command, e.g. <code>app('TextEdit').documents.at(1).name.get() → 'Untitled.txt'</code>.</p></li>
+<li><p>Apple events use keyword parameters, which JS does not natively support, so any parameters must be wrapped in a single JS object before being passed to an application command in NodeAutomation.</p></li>
+<li><p>Many applications allow a single command to operate on multiple objects at the same time, providing significant performance benefits when manipulating large numbers of application objects.</p></li>
+</ul>
+
+<p>Chapters 2 and 3 of this manual provide further information on how Apple event IPC works and a tutorial-based introduction to NodeAutomation. Chapter 4 describes various ways of getting help when scripting applications. Chapters 5 through 12 cover the NodeAutomation interface, and chapter 13 discusses techniques for optimizing performance.</p>
+
+<h2>Installing NodeAutomation</h2>
+
+<pre><code>npm install nodeautomation
+</code></pre>
+
+            </div>
+        </div>
+        <div id="footer"><div class="navbar"><a href="index.html">index</a> | <a href="overview.html">next</a></div></div>
+    </body>
+</html>

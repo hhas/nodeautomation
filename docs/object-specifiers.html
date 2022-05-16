@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>NodeAutomation | Object specifiers</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="all"><!--@import url(full.css);--></style>
+    </head>
+    <body>
+        <div id="wrap">
+            <div id="main">
+                <h1>Object specifiers</h1>
+                <div class="navbar"><a href="application-objects.html">back</a> | <a href="index.html">index</a> | <a href="specifier-selectors.html">next</a></div>
+                <h2>Property specifiers</h2>
+
+<p>An object property contains one of the following:</p>
+
+<ul>
+<li>a simple value (number, string, array, etc.) that describes an attribute of that object, such as its name, class, size, or, color.</li>
+<li>an object specifier that represents a one-to-one relationship between this object and another object within the application's object model, providing a convenient shortcut to another object of particular interest to users; for example, the Finder's <code>startupDisk and</code> <code>home</code> properties identify the current user's startup disk and home folder, iTunes' <code>currentTrack</code> property contains a object specifier that identifies the currently playing track.</li>
+</ul>
+
+<p>Syntax:</p>
+
+<pre><code>objectSpecifier.property
+</code></pre>
+
+<p>Examples:</p>
+
+<pre><code>textedit.name
+textedit.documents.at(1).text
+finder.home.files.name
+</code></pre>
+
+<h2>Element specifiers</h2>
+
+<p>Many objects also have elements, which represent a one-to-many relationship between that object and others. </p>
+
+<p>Object elements often mirror the application's underlying hierarchical data model; for example, the Finder's <code>application</code> object contains one or more <code>disk</code> objects, which can contain any number of <code>file</code> and/or <code>folder</code> objects, which may contain further <code>file</code> and/or <code>folder</code> objects, and so on, just as the file system itself is structured:</p>
+
+<pre><code>app('Finder').disks.folders...files
+</code></pre>
+
+<p>At other times, they may represent relationships provided simply as a convenience to scripters, e.g. the Finder's <code>application</code> object also provides <code>file</code> and <code>folder</code> elements as quick shortcuts to <code>file</code> and <code>folder</code> objects on the user's desktop; thus all these object specifiers identify the same file objects (assuming the current user is named <code>jsmith</code>):</p>
+
+<pre><code>app('Finder').startupDisk.folders.named('Users').folders.named('jsmith').folders.named('Desktop').files
+
+app('Finder').home.folders.named('Desktop').files
+
+app('Finder').desktop.files
+
+app('Finder').files
+</code></pre>
+
+<p>A element specifier uses the following syntax to identify <em>all</em> of an object's elements by default:</p>
+
+<pre><code>objectSpecifier.elements
+</code></pre>
+
+<p>Examples:</p>
+
+<pre><code>finder.home.folders
+textedit.windows
+textedit.documents.paragraphs
+</code></pre>
+
+<p><strong>Important:</strong> Applications normally name their property in the singular (e.g. <code>size</code>, <code>currentTrack</code>), while providing both both singular <em>and</em> plural versions of element names (e.g. <code>disk</code>/<code>disks</code>, <code>fileTrack</code>/<code>fileTracks</code>). AppleScript allows element names to be written either in the singular or the plural, and automatically corrects any sloppy grammar when the script is compiled. In NodeAutomation, element names are <em>always</em> written in the plural form (e.g. <code>disks</code>, <code>fileTracks</code>), except where an application dictionary forgets to provide plural name forms, in which case it falls back to the singular form. [TBC]</p>
+
+<h2>Targeted vs untargeted specifiers</h2>
+
+<p>While most object specifiers are built using an <code>app</code> object that is targeted at a specific application, NodeAutomation also allows you to construct untargeted specifiers that do not refer to a specific application. </p>
+
+<p>A targeted object specifier begins with an <code>app</code> object that identifies the application whose object(s) it refers to, e.g.:</p>
+
+<pre><code>app('TextEdit').documents.end;
+
+app.atURL('eppc://my-mac.local/Finder').home.folders.name;
+</code></pre>
+
+<p>An untargeted specifier begins with <code>app</code>, <code>con</code> or <code>its</code> without indicating the application to which it should eventually be sent, e.g.:</p>
+
+<pre><code>app.documents.end
+
+con.words.at(3)
+
+its.name.beginsWith('d')
+</code></pre>
+
+<p>Untargeted specifiers provide a convenient shortcut when writing object specifiers that are only used in another object specifier's reference form methods:</p>
+
+<pre><code>app('Finder').home.folders.where(its.name.beginsWith('d')).get();
+
+app('Tex-Edit Plus').windows.at(1).text.range(con.words.at(2), 
+                                              con.words.at(-2)).get();
+</code></pre>
+
+<p>or as command parameters:</p>
+
+<pre><code>app('TextEdit').make({ new: k.word,
+                       at: app.documents[1].words.end, 
+                       withData: 'Hello' });
+
+app('Finder').desktop.duplicate({ 
+              to: app.home.folders.named('Desktop Copy') });
+</code></pre>
+
+<h2>Other features</h2>
+
+<p>To determine if a variable contains a specifier object:</p>
+
+<pre><code>var someVariable = app('Finder').desktop.files;
+app.isSpecifier(someVariable);
+//--&gt; true
+</code></pre>
+
+            </div>
+        </div>
+        <div id="footer"><div class="navbar"><a href="application-objects.html">back</a> | <a href="index.html">index</a> | <a href="specifier-selectors.html">next</a></div></div>
+    </body>
+</html>
