@@ -1,7 +1,5 @@
 # Introduction
 
-[Note: this is a quick-and-dirty adaptation of appscript documentation, which is what NodeAutomation's design is based on. The content and presentation is less than ideal, but it'll have to do for now.]
-
 The NodeAutomation bridge allows 'AppleScriptable' applications to be controlled by Node.js (JavaScript) scripts.
 
 For example, to get the value of the first paragraph of the topmost document in TextEdit:
@@ -28,13 +26,11 @@ which is equivalent to this:
 
 In order to use NodeAutomation effectively, you will need to understand the differences between the Apple event and JavaScript object systems.
 
-In contrast to the familiar object-oriented approach of other inter-process communication systems such as COM and Distributed Objects, Apple event IPC is based on a combination of remote procedure calls and first-class queries - somewhat analogous to using XPath over XML-RPC. (TO DO: can any helpful comparisons to jQuery's selector support be made, or will this confuse/mislead more than it helps?)
+In contrast to the familiar object-oriented approach of other inter-process communication systems such as COM and Distributed Objects, Apple event IPC is based on a combination of *remote procedure calls* and *first-class queries* - somewhat analogous to using XPath over XML-RPC.
 
 While NodeAutomation borrows from JS's own OO syntax for conciseness and readability, like AppleScript, it behaves according to Apple event rules. Apple event queries are much more powerful and expressive than JS's OO references, so cannot be adequately described using only standard OO syntax and idioms. As a result, JS users will discover that some things work differently in NodeAutomation from what they're used to. For example:
 
-[ TO DO: brief examples of each; maybe split these bullet points into separate subheadings ]
-
-* Object elements are one-indexed, not zero-indexed as in JS arrays, and while NodeAutomation does recognize JS's own zero-indexed `ref[...]` and `ref.slice(...)` notations as a convenience, most 'references' can only be constructed by using NodeAutomation's own 'reference form' methods: `at`, `named`, `thru`, `where`, etc.
+* Object elements are one-indexed, not zero-indexed as in JS arrays. While NodeAutomation does recognize JS's own zero-indexed `ref[...]` and `ref.slice(...)` notations as a convenience, most 'references' can only be constructed by using NodeAutomation's own 'reference form' methods: `at`, `named`, `thru`, `where`, etc.
 
 * Evaluating a 'reference' to a property of an application object, e.g. `app('TextEdit').documents.at(1).name` does not automatically return the property's value. It merely returns an object specifier (query) that describes the location of that property (`app('TextEdit').documents.at(1).name`). To retrieve that property's value, the object specifier must be sent to the application in a `get` command, e.g. `app('TextEdit').documents.at(1).name.get() → 'Untitled.txt'`.
 
@@ -49,6 +45,3 @@ Chapters 2 and 3 of this manual provide further information on how Apple event I
 ## Installing NodeAutomation
 
     npm install nodeautomation
-
-
-(Requires NodObjC, which requires Xcode to install.)

@@ -18,12 +18,13 @@ Or to create a new "Hello World!" document in TextEdit:
     app('TextEdit').make({new: k.document, 
                           withProperties: {text: "Hello World!"}})
 
+Documentation is included in the NodeAutomation package.
+
 ______________________________________________________________________________
 
 Dependencies:
 
 - objc -- https://github.com/hhas/objc (development fork)
-
 - libxmljs2
 - ffi-napi
 - ref-napi
@@ -31,9 +32,6 @@ Dependencies:
 ______________________________________________________________________________
 
 Caution: This is an alpha release. There will be bugs and rough edges.
-
-Documentation is preliminary, being a quick and dirty translation of the 
-original appscript manual.
 
 E&OE. No warranty given. Use at own risk. Etc.
 

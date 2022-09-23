@@ -1,7 +1,5 @@
 # Object specifiers
 
-[TO DO: quick reprise; could probably do with better subheadings structure]
-
 ## Property specifiers
 
 An object property contains one of the following:
@@ -20,8 +18,6 @@ Examples:
     textedit.documents.at(1).text
     finder.home.files.name
 
-
-[TO DO: where to discuss user properties, e.g. ref.$foo_bar? probably best in own chapter along with rest of syntax for calling user subroutines]
 
 ## Element specifiers
 

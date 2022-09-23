@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>NodeAutomation | Type conversions</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="all"><!--@import url(full.css);--></style>
+    </head>
+    <body>
+        <div id="wrap">
+            <div id="main">
+                <h1>Type conversions</h1>
+                <div class="navbar"><a href="getting-help.html">back</a> | <a href="index.html">index</a> | <a href="application-objects.html">next</a></div>
+                <h2>The <code>k</code> ("keyword") namespace</h2>
+
+<p>For your convenience, NodeAutomation treats standard Apple event types and application-specific classes and enumerators as attributes of the top-level <code>k</code> ("keywords") object. Think of <code>k</code> as an infinitely large namespace that contains every possible name you could use. Examples:</p>
+
+<pre><code>// AEM-defined data types:
+k.boolean
+k.UnicodeText
+k.list
+
+// Application-defined class names:
+k.document
+k.window
+k.disk
+
+// Application-defined enumerators:
+k.yes
+k.no
+k.ask
+</code></pre>
+
+<p>Occasionally an application defines a type or enumerator without providing it with a corresponding name name. In these cases, the value will be represented as a raw AE code, e.g. <code>k.fromTypeCode('#ABCD')</code>. To construct <code>Keyword</code> objects using raw AE codes:</p>
+
+<pre><code>k.fromTypeCode(<var>code</var>)
+k.fromEnumCode(<var>code</var>)</code></pre>
+
+<p>Raw codes may be written as four-char strings (printable ASCII characters only) prefixed with a hash character, '#', or as unsigned 32-bit integers, e.g. 0x.</p>
+
+<p>To determine if a variable contains a <code>Keyword</code> object:</p>
+
+<pre><code>var v = k.document;
+k.isKeyword(v);
+//--&gt; true
+</code></pre>
+
+<p>To compare two <code>Keyword</code> objects:</p>
+
+<pre><code>var v = k.documentFile;
+k.documentFile.isEqual(v);
+//--&gt; true
+</code></pre>
+
+<p><code>Keyword</code> objects are packed as <code>typeType</code> or <code>typeEnumerated</code> descriptors, depending on how they are defined in the target application's dictionary.</p>
+
+<h2>Common AE types</h2>
+
+<pre><code>AE type             Keyword             JS type
+
+typeBoolean         k.boolean           Boolean
+typeInteger         k.integer           Number
+typeFloat           k.real              Number
+typeUnicodeText     k.UnicodeText       String
+typeLongDateTime    k.date              Date
+typeAlias           k.alias             File
+typeFileURL         k.fileURL           File
+typeType            k.typeClass         Keyword
+typeEnumerated      k.constant          Keyword
+typeAEList          k.list              Array
+typeAERecord        k.record            Object
+</code></pre>
+
+<h2>Type mapping notes</h2>
+
+<p>While AE-JS type conversions generally work quite seamlessly, it is sometimes useful to know some of the details involved, particularly when troubleshooting code that deals with older or buggy applications.</p>
+
+<h3>Undefined</h3>
+
+<p>NodeAutomation throws on <code>undefined</code>.</p>
+
+<h3>Null</h3>
+
+<p>For convenience, NodeAutomation maps Apple events' <code>missing value</code> constant to JavaScript's <code>null</code> value. This makes it easy to check for missing values using the standard <code>===</code> operator.</p>
+
+<h3>Number</h3>
+
+<p>JavaScript represents all numbers internally as 64-bit floats. For compatibility NodeAutomation packs non-fractional numbers as SInt32 where possible.</p>
+
+<h3>Strings</h3>
+
+<p>Note that while <code>typeUnicodeText</code> was formally deprecated in Mac OS X 10.4+ in favour of <code>typeUTF8Text</code> and <code>typeUTF16ExternalRepresentation</code>, it remains the standard AE text type used by scriptable apps today.</p>
+
+<h3>Filesystem references</h3>
+
+<p>All file-related AE types, both current and deprecated, are represented as <code>File</code> objects. All file paths are packed and unpacked as <code>typeFileURL</code>, coercing as needed; alias and bookmark AE types are not preserved. For example, to open a file named <code>ReadMe.txt</code> in the <code>Documents</code> folder of user <code>jsmith</code>:</p>
+
+<pre><code>var file = new File('/Users/jsmith/Documents/ReadMe.txt');
+app('TextEdit').open({_:file});
+</code></pre>
+
+<p>An absolute POSIX path string is required; relative paths and tilde-based paths are not [currently?] accepted.</p>
+
+<p>To convert a <code>File</code> object to POSIX path string:</p>
+
+<pre><code>var file = new File('/Users/jsmith/Documents/ReadMe.txt');
+var path = String(file);
+console.log(path);
+//--&gt; '/Users/jsmith/Documents/ReadMe.txt'
+</code></pre>
+
+<p>To determine if a variable contains a <code>File</code> object:</p>
+
+<pre><code>var v = new File('/Users/jsmith');
+File.isFile(v);
+//--&gt; true
+</code></pre>
+
+<p>To compare two <code>File</code> objects (note: this only checks for exact path string equality):</p>
+
+<pre><code>var v = new File('/Users/jsmith');
+new File('/Users/jsmith').isEqual(v);
+//--&gt; true
+</code></pre>
+
+<p>For backwards compatibility with older Carbon apps that only accept (now-deprecated) colon-delimited HFS path strings:</p>
+
+<pre><code>var file = File.fromHFSPath('Macintosh HD:Users:jsmith:Documents:ReadMe.txt');
+file.toHFSPath();
+//--&gt; 'Macintosh HD:Users:jsmith:Documents:ReadMe.txt'
+</code></pre>
+
+<h3>Records</h3>
+
+<p>The <code>typeAERecord</code> AE type is a struct-like data structure containing zero or more properties. NodeAutomation represents AE records as JavaScript objects. The keys in this dict are usually application-defined keywords (e.g. <code>name</code>), although they may also be raw four-char codes (indicated by a <code>#</code> prefix) or arbitrary strings (indicated by a <code>$</code> prefix).</p>
+
+<p>If an object contains a <code>class</code> (or <code>#pcls</code>) key, appscript will pack the remaining items into an AE record, then coerce it to the type specified by this <code>class</code> property. Similarly, when unpacking an record-like AEDesc with a custom type code, appscript will unpack it as a JavaScript object with its AE type described by a <code>class</code> entry.</p>
+
+<h3>Unbridged types</h3>
+
+<p>Unit types (e.g. <code>2.54 as inches</code>) are primarily an native AppleScript language feature and generally not supported or used by scriptable applications. Unsupported by NodeAutomation.</p>
+
+<p>The Apple Event Manager defines many other AE types whose names and codes are defined by NodeAutomation for completeness. A few of these types are of occasional interest to users, the rest can simply be ignored. Unbridged values will be represented as <code>AEOpaqueDescriptor</code> objects (equivalent to <code>«data TYPE…»</code> objects in AppleScript).</p>
+
+            </div>
+        </div>
+        <div id="footer"><div class="navbar"><a href="getting-help.html">back</a> | <a href="index.html">index</a> | <a href="application-objects.html">next</a></div></div>
+    </body>
+</html>

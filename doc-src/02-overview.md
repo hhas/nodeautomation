@@ -152,11 +152,9 @@ Finally, each window object has a one-to-one relationship to the document object
 
 NodeAutomation is a high-level JavaScript-to-Apple Event Manager bridge, intended for use by both developers and end-users. NodeAutomation architecture consists of two layers:
 
-* The low-level Apple event APIs provided by Cocoa's `NSAppleEventDescriptor` class, which is accessed via the NodObjC JavaScript-ObjC bridge. 
+* The low-level Apple event APIs.
 
 * NodeAutomation - a high-level user-friendly 'dynamic glue' layer, implemented as `Proxy` objects that provide a native OO-like API for constructing relational AEOM queries, while performing automatic translation between human-readable application terminology and corresponding raw AE ('four-char') codes, and converting standard JS values and objects to and from their AE equivalents.
-
-[TO DO: include example using NSAppleEventDescriptor?]
 
 For example, to set the size of the first character of every non-empty paragraph in every document of TextEdit to 24 pt using raw four-char codes:
 

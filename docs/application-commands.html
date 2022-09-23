@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>NodeAutomation | Application commands</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="all"><!--@import url(full.css);--></style>
+    </head>
+    <body>
+        <div id="wrap">
+            <div id="main">
+                <h1>Application commands</h1>
+                <div class="navbar"><a href="specifier-examples.html">back</a> | <a href="index.html">index</a> | <a href="command-examples.html">next</a></div>
+                <h2> Command syntax</h2>
+
+<p>A command optionally accepts a single “arguments” object which contains the command's direct parameter (<code>_</code>) and/or named parameters, plus any standard attributes (<code>sendOptions</code>, <code>withTimeout</code>, <code>ignoring</code>). For example, to set the text of the frontmost TextEdit document:</p>
+
+<pre><code>app('TextEdit').set({ _: app.documents.first.text, to: "Hello, World!" });
+</code></pre>
+
+<p>The arguments object is required as JavaScript does not support true keyword arguments. The underscore key, <code>_</code>, indicates the command’s direct parameter.</p>
+
+<p>If the direct parameter is an object specifier, the same command can be written more concisely like this:</p>
+
+<pre><code>app('TextEdit').documents.first.text.set({ to: "Hello, World!" });
+</code></pre>
+
+<p>When a command is called on an object specifier, NodeAutomation automatically uses that 'parent' specifier as the command's direct parameter if it does not already have one. (One exception to this rule: the <code>make</code> command packs the parent specifier as its <code>at</code> parameter instead.) This makes code easier to read so is the preferred syntax.</p>
+
+<p>The following <code>close</code> command closes all TextEdit documents, asking the user what to do about any unsaved changes:</p>
+
+<pre><code>app('TextEdit').documents.close({ saving: k.ask });
+</code></pre>
+
+<p>By default, macOS waits 2 minutes for the application to reply before reporting a timeout error, but this can be shortened or extended if needed. The following command reports a timeout error if the application hasn't responded after 30 seconds:</p>
+
+<pre><code>app('TextEdit').documents.close({ saving: k.ask, withTimeout: 30 });
+</code></pre>
+
+<p>The following <code>quit</code> command uses neither a direct parameter nor any named parameters or attributes, so the arguments object can be omitted entirely:</p>
+
+<pre><code>app('TextEdit').quit();
+</code></pre>
+
+<p>When passing a direct parameter, always remember to wrap it in an arguments object, using an underscore <code>_</code> as its key:</p>
+
+<pre><code>app('iTunes').subscribe({ _:'http://www.example.com/feeds/podcast' });
+
+app('TextEdit').open({ _:File('/Users/jsmith/ReadMe.txt') });
+</code></pre>
+
+<h2>Examples</h2>
+
+<pre><code>// tell application "TextEdit" to activate
+   app('TextEdit').activate();
+
+// tell application "TextEdit" to open pathsList
+   app('TextEdit').open({ _:pathsList });
+
+// tell application "Finder" to get version
+   app('Finder').get({ _:app.version });
+   app('Finder').version.get(); // preferred syntax
+
+// tell application "Finder" to set name of file "foo.txt" of home to "bar.txt"
+   app('Finder').home.files.named('foo.txt').name.set({ to: 'bar.txt' })
+
+// tell application "TextEdit" to count (text of first document) each paragraph
+   app('TextEdit').documents.first.text.count({ each: k.paragraph })
+
+// tell application "TextEdit" to make new document at end of documents
+   app('TextEdit').make({ new: k.document, at: app.documents.end });
+   app('TextEdit').documents.end.make({ new: k.document }); // preferred syntax
+
+// tell application "Finder" to get items of home as alias list
+   app('Finder').home.items.get({ asType: k.alias });
+</code></pre>
+
+<h2>Command attributes</h2>
+
+<p>Whereas an Apple event's parameters contain user data to be passed directly to the application's event handler for processing, its attributes control exactly <em>how</em> the Apple event should be sent and received. While the default values are sufficient in most cases, you can supply alternate values via the command's parameters object if required. The following attribute names are recognized:</p>
+
+<ul>
+<li><p><code>ignoring</code> - a list of zero or more of the following keywords - <code>k.case</code>, <code>k.diacriticals</code>, <code>k.hyphens</code>, <code>k.punctuation</code>, <code>k.whitespace</code>, <code>k.numericStrings</code> - indicating which text attributes the application should consider or ignore when comparing text values itself. The default is <code>[k.case]</code>, i.e. ignore case but consider all other attributes. (Note that most applications ignore text comparison flags and always use the default.)</p></li>
+<li><p><code>asType</code> - A keyword indicating the type of value the command should return as its result (assuming it knows how to produce values of that type). This attribute is supported by some application's <code>get</code> commands; for example, for example, to tell Finder to return an alias value (<code>Path</code>) instead of a file/folder object specifier, use <code>get({ asType: k.alias })</code>.</p></li>
+<li><p><code>timeout</code> - The number of seconds NodeAutomation should wait for the application to respond before giving up and reporting a timeout error. To wait forever, use <code>0</code>. To use the default timeout (2 minutes), use <code>null</code>. [TBC]</p></li>
+<li><p><code>sendOptions</code> - [TBC]</p></li>
+</ul>
+
+<h2>Syntactic special cases</h2>
+
+<p>The following syntactic shortcuts are implemented for convenience:</p>
+
+<h2><code>get</code> command</h2>
+
+<p>Calling an object specifier directly is equivalent to calling its <code>get</code> command, i.e.:</p>
+
+<pre><code>objectSpecifier()
+</code></pre>
+
+<p>is shorthand for:</p>
+
+<pre><code>objectSpecifier.get()
+</code></pre>
+
+<p>Thus the following commands are all functionally identical:</p>
+
+<pre><code>app('Finder').get({ _:app.version} );
+
+app('Finder').version.get();
+
+app('Finder').version();
+</code></pre>
+
+<h2><code>make</code> command</h2>
+
+<p>If a <code>make</code> command does not already have an <code>at</code> parameter then NodeAutomation will use the object specifier upon which it was called instead; thus:</p>
+
+<pre><code>insertionSpecifier.make({ new: className })
+</code></pre>
+
+<p>is shorthand for:</p>
+
+<pre><code>applicationObject.make({ new: className, at: insertionSpecifier })
+</code></pre>
+
+<p>For example:</p>
+
+<pre><code>app('TextEdit').make({ new: k.document, at: app.documents.end });
+</code></pre>
+
+<p>is written more neatly as:</p>
+
+<pre><code>app('TextEdit').documents.end.make({ new: k.document });
+</code></pre>
+
+<h2><code>count</code> command</h2>
+
+<p>The <code>count</code> command doesn't exactly replicate AS's own behavior. Unlike AS, NodeAutomation doesn't restructure the direct parameter and add an <code>each</code> parameter itself. This is not an issue with Cocoa apps, but some Carbon apps - e.g. Illustrator - <em>require</em> an <code>each</code> parameter to be given even though their dictionaries may imply this parameter is optional, and will return a 'missing parameter' error -1701 if the user doesn't supply the <code>each</code> parameter herself.</p>
+
+<h2>Command errors</h2>
+
+<p>The CommandError exception describes an error raised by the target application or Apple Event Manager when sending a command.</p>
+
+<pre><code>CommandError(Exception)
+
+    Properties:
+      errorNumber : int -- Mac OS error number
+      errorMessage : str -- application-supplied/generic error description
+      offendingObject : anything | None -- object that caused the error, 
+                                           if given by application
+      expectedType : anything | None -- object that caused a coercion error, 
+                                        if given by application
+      partialResult : anything | None -- part of return value constructed 
+                                         before error occurred, if given 
+                                         by application
+
+  Methods:
+
+      [Symbol.toPrimitive](hint) -- Mac OS error number or formatted description of error
+</code></pre>
+
+<h2>Note to AppleScript users</h2>
+
+<p>Unlike AppleScript, which implicitly sends a <code>get</code> command to any unresolved object specifiers at the end of evaluating an expression, NodeAutomation only resolves a specifier when it receives an appropriate command. For example:</p>
+
+<pre><code>d = app('TextEdit').documents
+</code></pre>
+
+<p>is not the same as:</p>
+
+<pre><code>set d to documents of app "TextEdit"
+</code></pre>
+
+<p>even though the two may look similar. In the first case, the value assigned to <code>d</code> is an object specifier: <code>app('TextEdit').documents</code>. In the second, AppleScript evaluates the documents of <code>app "TextEdit"</code> reference by performing an implicit <code>get</code> command and then assigning its result, a list of references to individual documents, to d. To obtain the original reference as an AppleScript value, the literal reference must be preceded by an a reference to operator as shown below.</p>
+
+<p>To get a single reference to all documents:</p>
+
+<pre><code>set d to a reference to documents of app "TextEdit"
+return d
+--&gt; a reference to documents of app "TextEdit"
+
+var d = app('TextEdit').documents;
+console.log(d);
+//--&gt; app('TextEdit').documents
+</code></pre>
+
+<p>To get a list of references to each document:</p>
+
+<pre><code>set d to get documents of app "TextEdit" -- (explicit 'get' is optional)
+return d
+--&gt; {document 1 of app "TextEdit", document 2 of app "TextEdit"}
+
+var d = app('TextEdit').documents.get(); // (explicit 'get' is required)
+console.log(d);
+//--&gt;  [app('TextEdit').documents.at(1), app('TextEdit').documents.at(2)]
+</code></pre>
+
+            </div>
+        </div>
+        <div id="footer"><div class="navbar"><a href="specifier-examples.html">back</a> | <a href="index.html">index</a> | <a href="command-examples.html">next</a></div></div>
+    </body>
+</html>

@@ -1,10 +1,5 @@
 # Application commands
 
-[TO DO: need general intro to/review of commands and what they do]
-
-[TO DO: need section (chapter?) on getting/setting user-defined properties and calling user-defined subroutines in stay-open applets, which are identified by prefixing their names with `$`, e.g. `tell app "MyApplet" to foo_bar(1, 2, 3)` -> `app("MyApplet").$foo_bar([1, 2, 3])`]
-
-
 ## Command syntax
 
 A command optionally accepts a single “arguments” object which contains the command's direct parameter (`_`) and/or named parameters, plus any standard attributes (`sendOptions`, `withTimeout`, `ignoring`). For example, to set the text of the frontmost TextEdit document:
@@ -127,8 +122,6 @@ The `count` command doesn't exactly replicate AS's own behavior. Unlike AS, Node
 
 ## Command errors
 
-[TO DO: need to update this section once error reporting is finished]
-
 The CommandError exception describes an error raised by the target application or Apple Event Manager when sending a command.
 
     CommandError(Exception)
@@ -150,8 +143,6 @@ The CommandError exception describes an error raised by the target application o
 
 
 ## Note to AppleScript users
-
-[TO DO: need to decide what to do with this section; update, move to an earlier point in the chapter/manual; delete as redundant]
 
 Unlike AppleScript, which implicitly sends a `get` command to any unresolved object specifiers at the end of evaluating an expression, NodeAutomation only resolves a specifier when it receives an appropriate command. For example:
 

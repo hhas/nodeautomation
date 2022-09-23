@@ -137,11 +137,6 @@ NodeAutomation also defines `get` and `set` commands for any scriptable applicat
 Note that these commands are only useful when targetting applications that define an Apple Event Object Model as part of their Apple event interface, or when targetting stay-open script applications created by Script Editor.
 
 
-## Transaction support
-
-[TO DO: transaction methods aren't yet implemented, and it's unclear if it's worth doing so since [almost?] no scriptable applications supprt them any more.]
-
-
 ## Local application launching notes
 
 Note: the following information only applies to local applications as NodeAutomation cannot directly launch applications on a remote Mac. To control a remote application, the application must be running beforehand or else launched indirectly (e.g. by using the remote Mac's Finder to open it).
@@ -167,8 +162,6 @@ Remember that NodeAutomation automatically launches a non-running application th
 
 
 ### Launch errors
-
-[TO DO: error reporting is not yet finalized]
 
 If the application can't be launched for some reason (e.g. if it's in the Trash), a "can't launch application" error will be raised. This provides a description of the problem (if it's a standard LaunchServices error) along with the original OS error number.
 
@@ -214,8 +207,6 @@ Note that you can use app objects to control applications that have been quit an
     
 
 ### Static terminology
-
-[TBC]
 
 By default, an application object automatically retrieves and parses an application's SDEF terminology data the first time that object is used to construct a specifier or command.
 

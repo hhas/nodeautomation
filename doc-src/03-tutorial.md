@@ -1,7 +1,5 @@
 # NodeAutomation tutorial
 
-[TO DO: would it be better to use NodeAutomation's JS-style shortcuts as much as possible? Currently, NodeAutomation always uses its native query syntax - e.g. `documents.at(1)` - even in cases where the more limited JS-style shortcut form - `documents[0]` - would suffice. The risk with introducing the shortcut form too early is that it creates a sense of false familiarity. If learners fail to read further, the will not appreciate these shortcuts' pros and cons, and will likely develop an incomplete and incorrect understanding of how NodeAutomation and the Apple Event Object Model actually work. Given the importance of not perpetuating common misconceptions about how AS/AE/AEOM work, it may be preferable to make readers learn the unfamiliar syntax and semantics first simply to ensure they don't jump to incorrect assumptions based on the familiar-looking, but semantically muddy, shortcut syntax alone.]
-
 The following tutorial provides a practical taste of application scripting with appscript. Later chapters cover the technical details of appscript usage that are mostly skimmed over here.
 
 ## 'Hello World' tutorial

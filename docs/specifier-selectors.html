@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>NodeAutomation | Selecting elements</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="all"><!--@import url(full.css);--></style>
+    </head>
+    <body>
+        <div id="wrap">
+            <div id="main">
+                <h1>Selecting elements</h1>
+                <div class="navbar"><a href="object-specifiers.html">back</a> | <a href="index.html">index</a> | <a href="specifier-examples.html">next</a></div>
+                <p>Once you've constructed an object specifier that identifies all of the elements of an object, you can further refine this selection to specify just one, or several, of those elements in particular. To do this, you call one (or sometimes more) of the following <em>reference form</em> methods:</p>
+
+<ul>
+<li><code>at</code> </li>
+<li><code>named</code></li>
+<li><code>ID</code></li>
+<li><code>first</code>/<code>middle</code>/<code>last</code>/<code>any</code></li>
+<li><code>previous</code>/<code>next</code></li>
+<li><code>thru</code></li>
+<li><code>where</code></li>
+<li><code>beginning</code>, <code>end</code>, <code>before</code>, <code>after</code></li>
+</ul>
+
+<p>The following sections explain how to use each of these reference forms.</p>
+
+<h2><code>at</code> (by index)</h2>
+
+<p>Identifies a single element object by its position.</p>
+
+<h3>Syntax</h3>
+
+<pre><code>elements.at(selector)
+</code></pre>
+
+<p>The <code>selector</code> value is a non-zero integer representing the object's index position. The first element has index <code>1</code>, the second element's index is <code>2</code>, the third is <code>3</code>, and so on. Negative numbers can be used to count backwards from the last element: <code>-1</code> indicates the last element, <code>-2</code> the second-to-last, and so on.</p>
+
+<h3>Examples</h3>
+
+<pre><code>words.at(3)
+items.at(-1)
+</code></pre>
+
+<h3>JS-style shortcuts</h3>
+
+<p>When using the <code>at</code> method, always remember that the Apple Event Object Model always uses <strong>one-indexing</strong>, not zero-indexing as in JavaScript arrays. As a convenience to JS users who are more used to the latter, NodeAutomation also allows by-index reference forms to be described using JS's traditional <code>[...]</code> syntax.</p>
+
+<p>Thus, <code>words.at(3)</code> can also be written as:</p>
+
+<pre><code>words[2]
+</code></pre>
+
+<p>and <code>items.at(-1)</code> as:</p>
+
+<pre><code>items[-1]
+</code></pre>
+
+<p>Note that this shortcut <em>only</em> accepts integers and does not work on all object specifiers due to JS's own syntax limitations. (You can still use the standard <code>at</code> method, of course.)</p>
+
+<h3>Notes</h3>
+
+<p>Some applications also allow non-integer values to be used. For example, Finder also accepts a <code>File</code> object that identify a file/folder/disk location anywhere in the file system:</p>
+
+<pre><code>app('Finder').items.at( new File('/path/to/some/file') )
+</code></pre>
+
+<h2><code>named</code> (by name)</h2>
+
+<p>Identifies the first element with the given name.</p>
+
+<h3>Syntax</h3>
+
+<pre><code>elements.named(selector)
+</code></pre>
+
+<p>The <code>selector</code> value is a string representing the object's name as given in its <code>name</code> property.</p>
+
+<h3>Examples</h3>
+
+<pre><code>disks['Macintosh HD']
+files['index.html']
+</code></pre>
+
+<h3>Notes</h3>
+
+<p>Applications usually treat object names as case-insensitive. </p>
+
+<p>Where multiple element have the same name, a by-name reference only identifies the first element found with that name.  If you wish to identify <em>all</em> elements with the same name, use <code>where</code> instead.</p>
+
+<h2><code>ID</code> (by unique identifier)</h2>
+
+<p>Identifies a single element using a unique application-supplied key.</p>
+
+<h3>Syntax</h3>
+
+<pre><code>elements.ID(selector)
+
+    selector : anything -- object's id
+</code></pre>
+
+<p>Examples</p>
+
+<pre><code>windows.ID(4321)
+</code></pre>
+
+<h2><code>first</code>/<code>middle</code>, <code>last</code>, <code>any</code> (by absolute position)</h2>
+
+<p>Identify the first, middle, or last element, or a randomly chosen element.</p>
+
+<h3>Syntax</h3>
+
+<pre><code>elements.first
+elements.middle
+elements.last
+elements.any
+</code></pre>
+
+<h3>Examples</h3>
+
+<pre><code>documents.first
+paragraphs.last
+files.any
+</code></pre>
+
+<h2><code>previous</code>/<code>next</code> (by relative position)</h2>
+
+<p>Identify a single element before or after (i.e. relative to) this one.</p>
+
+<h3>Syntax</h3>
+
+<pre><code>anElement.previous(className)
+anElement.next(className)
+</code></pre>
+
+<p>The <code>className</code> value is a keyword object indicating the class of the nearest object to select (e.g. <code>k.document</code>, <code>k.folder</code>). For example, to specify the next folder after 'Music' in the user's home folder:</p>
+
+<pre><code>app('Finder').home.folders.named('Music').next(k.folder)
+</code></pre>
+
+<p>If selecting an element of the same type, the <code>previous</code>/<code>next</code> method's argument can be omitted; thus the above specifier may be written more concisely as:</p>
+
+<pre><code>app('Finder').home.folders.named('Music').next()
+</code></pre>
+
+<p>See the Type Conversions chapter for more information on keyword objects.</p>
+
+<h3>Examples</h3>
+
+<pre><code>words.at(3).next()
+paragraphs.at(-1).previous(k.character)
+</code></pre>
+
+<h2><code>thru</code> (by range)</h2>
+
+<p>Identifies all elements between and including the beginning and end of the range.</p>
+
+<h3>Syntax</h3>
+
+<pre><code>elements.thru(start, stop)
+</code></pre>
+
+<p>The <code>start</code> and <code>stop</code> values may be integers, strings, and/or <code>app</code> or <code>con</code>-based specifiers.</p>
+
+<p>When positive integer values are given, the <code>thru</code> method (like <code>at</code>) starts counting elements from 1, not zero, so <code>1</code> indicates the first element, <code>2</code> the second, etc.</p>
+
+<p>The beginning and end elements are declared relative to the object containing the elements being selected. NodeAutomation defines a top-level <code>con</code> object to indicate the current elements' container, from which you can construct generic specifiers to identify the exact element to use as the start or end of the range. For example, the following generic specifier indicate the third paragraph of the currrent container object:</p>
+
+<pre><code>con.paragraphs.at(3)
+</code></pre>
+
+<p>Thus, to select every paragraph from the third through to the second-to-last:</p>
+
+<pre><code>paragraphs.thru( con.paragraphs.at(3), con.paragraphs.at(-2) )
+</code></pre>
+
+<p>When the start and end elements are the same class as the elements being selected, which is frequently the case, NodeAutomation allows the same <code>thru</code> to be written much more concisely, like this:</p>
+
+<pre><code>paragraphs.thru(3, -1)
+</code></pre>
+
+<p>The <code>thru</code> method will automatically convert number and string arguments to <code>con</code>-based specifiers.</p>
+
+<p>Some applications can understand quite complex range requests. For example, the following will work in Tex-Edit Plus:</p>
+
+<pre><code>app('Tex-Edit Plus').documents.first.words.thru( con.characters.at(5), 
+                                                 con.paragraphs.at(-2) )
+</code></pre>
+
+<h3>Examples</h3>
+
+<pre><code>documents.thru(1, 3)
+folders.thru('Downloads', 'Movies')
+text.thru( con.characters.at(5), con.words.at(-2) )
+</code></pre>
+
+<h3>JS-style shortcuts</h3>
+
+<p>When using the <code>thru</code> method, always remember that the Apple Event Object Model always uses <strong>one-indexing</strong> and always includes both the start and end items in the selection, unlike JavaScript arrays which use zero-indexing and do not end item in the selection. As a convenience to JS users who are more used to the latter, NodeAutomation also allows by-range reference forms to be described using a JS-like <code>slice</code> method. Thus, <code>documents.thru(1, 3)</code> can also be written as:</p>
+
+<pre><code>documents.slice(0, 3)
+</code></pre>
+
+<p>Note that this shortcut <em>only</em> accepts integer values; to construct by-range references in any other way, use <code>thru</code>.</p>
+
+<h2><code>where</code> (by test)</h2>
+
+<p>Identifies zero or more elements whose properties and/or elements match one or more given tests. (In AppleScript, this is commonly known as a 'whose' (or 'where') clause.)</p>
+
+<h3>Syntax</h3>
+
+<pre><code>elements.where(testSpecifier)
+</code></pre>
+
+<p>The <code>testSpecifier</code> values is composed of the following:</p>
+
+<ul>
+<li><p>One or more generic specifiers that identify those properties and/or sub-elements to which a filter test should be applied. </p></li>
+<li><p>For each of those specifiers, the conditional test (e.g. <code>eq</code>, <code>isIn</code>) to apply to the value it identifies. </p></li>
+<li><p>If more than one test is being performed, or if a true result should produce false and vice-versa, Boolean-style logic tests (<code>and</code>/<code>or</code>/<code>not</code>) should also be used to combine them into a single compound test specifier.</p></li>
+</ul>
+
+<p>Each specifier to must be constructing using NodeAutomation's top-level <code>its</code> object, which represents each of the elements to be tested. For example, to refer to the <code>name</code> property of the object(s) being tested:</p>
+
+<pre><code>its.name
+</code></pre>
+
+<p>Or, if selecting an application's <code>document</code> elements based on the first word in the document's text:</p>
+
+<pre><code>its.text.words.first
+</code></pre>
+
+<p>Each <code>its</code>-based specifier allow you to apply a single comparison or containment (i.e. condition) test to the property/element(s) being tested. Each method accepts a single value, object, or property/element specifier (i.e. the value to which the specified property or element(s) should be compared).</p>
+
+<p>Comparison tests:</p>
+
+<pre><code>itsSpecifier.lt(value) // is less than
+itsSpecifier.le(value) // is less than or equal to
+itsSpecifier.eq(value) // is equal to
+itsSpecifier.ne(value) // is not equal to
+itsSpecifier.gt(value) // is greater than
+itsSpecifier.ge(value) // is greater than or equal to
+</code></pre>
+
+<p>Containment tests:</p>
+
+<pre><code>itsSpecifier.beginsWith(value)
+itsSpecifier.endsWith(value)
+itsSpecifier.contains(value)
+itsSpecifier.isIn(value)
+</code></pre>
+
+<p>The following logic tests are supported:</p>
+
+<pre><code>testSpecifier.and(testSpecifier,...)
+testSpecifier.or(testSpecifier,...)
+testSpecifier.not
+</code></pre>
+
+<p><strong>Important:</strong> These are the only operations understood by the <code>where</code> reference form. You cannot construct test specifiers using standard JavaScript operators (e.g. <code>+</code>, <code>%</code>) or functions (<code>trim</code>, <code>round</code>), as the Apple Event Object Model does not recognize these requests and cannot perform them itself. You can still use these and other JS features to create the number, string, array, etc. values to be used as arguments in comparison and containment tests; however, if you need to perform more complex tests than AEOM allows then you will have to retrieve all of the raw data from the application then use a JS <code>for</code> loop to test and filter it yourself.</p>
+
+<h3>Examples:</h3>
+
+<pre><code>its.name.eq('')
+its.size.gt(1024)
+its.words.first.beginsWith('A')
+its.characters.first.eq(its.characters.last)
+
+its.ne('')
+its.size.gt(1000).and(its.size.lt(100000))
+
+its.words.at(1).beginsWith('A')
+     .or(its.words.at(2).contains('ce'))
+     .or(its.words.at(1).eq('Foo'))
+</code></pre>
+
+<p>When testing certain classes of element, such as words and paragraphs, you can even apply a containment test directly to it. For example, to specify every word that isn't "Wednesday" within the front TextEdit document:</p>
+
+<pre><code>app('TextEdit').documents.first.words.where( its.ne('Wednesday') )
+</code></pre>
+
+<h2><code>beginning</code>, <code>end</code>, <code>before</code>, <code>after</code> (insertion location)</h2>
+
+<p>Unlike other reference forms, which identify properties or elements, the insertion form identifies locations before/after/between an object's current elements.</p>
+
+<h3>Syntax</h3>
+
+<pre><code>elements.beginning
+elements.end
+anElement.before
+anElement.after
+</code></pre>
+
+<h3>Examples</h3>
+
+<pre><code>documents.end
+paragraphs.at(1).before
+</code></pre>
+
+            </div>
+        </div>
+        <div id="footer"><div class="navbar"><a href="object-specifiers.html">back</a> | <a href="index.html">index</a> | <a href="specifier-examples.html">next</a></div></div>
+    </body>
+</html>

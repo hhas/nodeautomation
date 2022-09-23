@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>NodeAutomation | NodeAutomation tutorial</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="all"><!--@import url(full.css);--></style>
+    </head>
+    <body>
+        <div id="wrap">
+            <div id="main">
+                <h1>NodeAutomation tutorial</h1>
+                <div class="navbar"><a href="overview.html">back</a> | <a href="index.html">index</a> | <a href="getting-help.html">next</a></div>
+                <p>The following tutorial provides a practical taste of application scripting with appscript. Later chapters cover the technical details of appscript usage that are mostly skimmed over here.</p>
+
+<h2>'Hello World' tutorial</h2>
+
+<p>This tutorial uses NodeAutomation, TextEdit and Terminal to perform a simple 'Hello World' exercise.</p>
+
+<p>Caution: It is recommended that you do not have any other documents open in TextEdit during this tutorial, as accidental modifications are easy to make and changes to existing documents are not undoable.</p>
+
+<h2>Start a node session</h2>
+
+<p>Create a new shell window in Terminal (<code>/Application/Utilities/Terminal.app</code>) and enter <code>node</code> to launch Node.js's interactive JavaScript interpreter. </p>
+
+<p>To import the NodeAutomation module:</p>
+
+<pre><code>const {app, con, its, k, File, CommandError} = require('nodeautomation');
+</code></pre>
+
+<p>Subsequent examples in this manual assume the latter import has been used.</p>
+
+<h2>Target TextEdit</h2>
+
+<p>To create new <code>app</code> object, identifying the application to be manipulated, and assign it to a variable, <code>te</code>, for easy reuse:</p>
+
+<pre><code>const te = app('TextEdit');
+</code></pre>
+
+<p>The application may be identified by name or path, bundle or process ID, or, if running remotely, <code>eppc://</code> URL. If the application is local and is not already running, it will be launched automatically for you. [TBC; different method calls are required for bundle/process ID and eppc URL; in addition, remote eppc support is not yet finished]</p>
+
+<h2>Create a new document</h2>
+
+<p>First, create a new TextEdit document by making a new <code>document</code> object. This is done using the <code>make</code> command, passing it a single keyword parameter, <code>new</code>, indicating the type of object to create; in this case <code>k.document</code>:</p>
+
+<pre><code>te.make({ new: k.document });
+</code></pre>
+
+<p>Running this command produces a result similar to the following:</p>
+
+<pre><code>//--&gt; app('TextEdit.app').documents.named('Untitled')
+</code></pre>
+
+<p>Because <code>document</code> objects are always elements of the root <code>application</code> object, applications such as TextEdit can usually infer the location at which the new document object should appear. At other times, you need to supply an <code>at</code> parameter that indicates the desired location. For example, the above <code>make</code> command can be written more fully as:</p>
+
+<pre><code>te.make({ new: k.document, at: app.documents.end });
+</code></pre>
+
+<p>As you can see, the make command returns a reference identifying the newly-created object. This reference can be assigned to a variable for easy reuse. Use the make command to create another document, this time assigning its result to a variable, doc:</p>
+
+<pre><code>var doc = te.make({ new: k.document });
+</code></pre>
+
+<h2>Set the document's content</h2>
+
+<p>The next step is to set the document's content to the string "Hello World". Every TextEdit document has a property, text, that represents the entire text of the document. This property is both readable and writeable, allowing you to retrieve and/or modify the document's textual content as unstyled unicode text.</p>
+
+<p>Setting a property's value is done using the <code>set</code> command. The <code>set</code> command, like all application commands, is available as a method of the root <code>application</code> class and has two parameters: a direct (positional) parameter containing reference to the property (or properties) to be modified, and a keyword parameter, to, containing the new value. In this case, the direct parameter is a reference to the new document's text property, <code>doc.text</code>, and the <code>to</code> parameter is the string <code>"Hello World"</code>:</p>
+
+<pre><code>te.set({ _:doc.text, to: 'Hello World' });
+</code></pre>
+
+<p>The front TextEdit document should now contain the text 'Hello World'.</p>
+
+<p>Because the above expression is a bit unwieldy to write, NodeAutomation allows it to be written in more natural JS-style:</p>
+
+<pre><code>doc.text.set({ to:'Hello World' });
+</code></pre>
+
+<p>NodeAutomation converts this second form to the first form internally, so the end result is exactly the same. NodeAutomation supports several such special cases, and these are described in the chapter on Application Commands.</p>
+
+<h2>Get the document's content</h2>
+
+<p>Retrieving the document's text is done using the <code>get</code> command. For example:</p>
+
+<pre><code>doc.text.get();
+</code></pre>
+
+<p>returns the result:</p>
+
+<pre><code>'Hello World'
+</code></pre>
+
+<p>This may seem counter-intuitive if you're used to dealing with AppleScript or object-oriented JS references, where evaluating a literal reference returns the value identified by that reference. However, always remember that NodeAutomation 'references' are really object specifiers - that is, query objects. while the syntax may look familiar, any similarity is purely superficial. For example, when evaluating the following literal reference:</p>
+
+<pre><code>te.documents[0].text;
+</code></pre>
+
+<p>the result is another 'reference' object, <code>app('/Applications/TextEdit.app').documents.at(1).text</code>, not the value being referenced (<code>'Hello World'</code>). To get the value being referenced, you have to pass the reference as the direct parameter (<code>_</code>) to TextEdit's <code>get</code> command:</p>
+
+<pre><code>te.get({ _:doc.text });
+</code></pre>
+
+<p>returns:</p>
+
+<pre><code>'Hello World!'
+</code></pre>
+
+<p>For convenience, NodeAutomation allows commands to be applied directly to their direct parameter, avoiding the need to pass this parameter in the command itself:</p>
+
+<pre><code>doc.text.get();
+</code></pre>
+
+<p>As a further shortcut, NodeAutomation allows the <code>.get</code> part to be omitted, and the reference called directly:</p>
+
+<pre><code>doc.text();
+</code></pre>
+
+<p>These and other syntactic shortcuts are documented in the Application Commands chapter.</p>
+
+<p>Depending on what sort of attribute(s) the reference identifies, <code>get</code> may return a primitive value (number, string, list, object, etc.), or it may return another object specifier, or list of object specifiers, e.g.:</p>
+
+<pre><code>doc.text.get();
+// 'Hello World!'
+
+te.documents.at(1).get();
+// app('TextEdit').documents.at(1)
+
+te.documents.get();
+// [ app('TextEdit').documents.at(1), app('TextEdit').documents.at(2) ]
+
+te.documents.text.get();
+// ['Hello World', '']
+</code></pre>
+
+<h2>More on the <code>make</code> command</h2>
+
+<p>The above exercise uses two commands to create a new TextEdit document containing the text 'Hello World'. It is also possible to perform both operations using the <code>make</code> command alone by passing the value for the new document's text property via the <code>make</code> command's optional <code>withProperties</code> parameter:</p>
+
+<pre><code>te.make({ new: k.document, withProperties: {text: 'Hello World'} });
+// app('TextEdit').documents.at(1)
+</code></pre>
+
+<p>Incidentally, you might note that every time the <code>make</code> command is used, it returns a reference to document 1. TextEdit identifies document objects according to the stacking order of their windows, with document 1 being frontmost. When the window stacking order changes, whether as a result of a script command or GUI-based interaction, so does the order of their corresponding document objects. This means that a previously created reference such as <code>app('TextEdit').documents.at(1)</code> may now identify a different document object to before! Some applications prefer to return references that identify objects by name or unique ID rather than index to reduce or eliminate the potential for confusion, but it's an issue you should be aware of, particularly with long-running scripts where there is greater opportunity for unexpected third-party interactions to throw a spanner in the works.</p>
+
+<h2>More on manipulating text</h2>
+
+<p>In addition to getting and setting a document's entire text by applying <code>get</code> and <code>set</code> commands to text property, it's also possible to manipulate selected sections of a document's text directly. TextEdit's <code>text</code> property contains a text object, which in turn has <code>character</code>, <code>word</code> and <code>paragraph</code> elements, all of which can be manipulated using a variety of commands - <code>get</code>, <code>set</code>, <code>make</code>, <code>move</code>, <code>delete</code>, etc. For example, to set the size of the first character of every paragraph of the front document to 24pt:</p>
+
+<pre><code>te.documents.at(1).text.paragraphs.size.set({to: 24});
+</code></pre>
+
+<p>Or to insert a new paragraph at the end of the document:</p>
+
+<pre><code>te.make({
+      new: k.paragraph,
+      withData: 'Hello Again, World\n',
+      at: app.documents.at(1).text.paragraphs.end 
+  });
+</code></pre>
+
+            </div>
+        </div>
+        <div id="footer"><div class="navbar"><a href="overview.html">back</a> | <a href="index.html">index</a> | <a href="getting-help.html">next</a></div></div>
+    </body>
+</html>
