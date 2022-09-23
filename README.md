@@ -18,8 +18,6 @@ Or to create a new "Hello World!" document in TextEdit:
     app('TextEdit').make({new: k.document, 
                           withProperties: {text: "Hello World!"}})
 
-Documentation is included in the NodeAutomation package.
-
 ______________________________________________________________________________
 
 Dependencies:
@@ -31,19 +29,33 @@ Dependencies:
 
 ______________________________________________________________________________
 
+Documentation:
+
+Documentation is preliminary, being a quick and dirty translation of the 
+original appscript manual. Documentation is included in the nodeautomation 
+package and online:
+
+https://hhas.github.io/nodeautomation/
+
+
+ASDictionary and ASTranslate tools:
+
+https://sourceforge.net/projects/appscript/files/
+
+______________________________________________________________________________
+
 Caution: This is an alpha release. There will be bugs and rough edges.
 
 E&OE. No warranty given. Use at own risk. Etc.
 
-(See also: http://appscript.sourceforge.net/status.html)
-
+See also: http://appscript.sourceforge.net/status.html
 
 ______________________________________________________________________________
 
 Test:
 
     $ node
-    > const {app} = require('nodeautomation')
+    > require('nodeautomation/repl')
     > const finder = app('Finder')
     > finder.home()
     app('Finder').startupDisk.folders.named('Users').folders.named('jsmith')
@@ -51,8 +63,6 @@ Test:
 ______________________________________________________________________________
 
 Known issues:
-
-`util.inspect.custom` needs work (`Proxy` wrappers currently appear in REPL)
 
 Relies on several now-deprecated CoreServices/Cocoa functions/methods for
 which macOS does not provide replacements.

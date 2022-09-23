@@ -10,22 +10,30 @@ Caution: It is recommended that you do not have any other documents open in Text
 
 ## Start a node session
 
-Create a new shell window in Terminal (`/Application/Utilities/Terminal.app`) and enter `node` to launch Node.js's interactive JavaScript interpreter. 
+Create a new shell window in Terminal (`/Application/Utilities/Terminal.app`) and enter `node` to launch Node.js's REPL (interactive JavaScript interpreter).
 
-To import the NodeAutomation module:
+To import the NodeAutomation module for use in a REPL session:
+
+    require('nodeautomation/repl');
+
+This imports the `app`, `con`, `its`, `k`, `File`, `CommandError` objects into the global namespace and sets the REPL's `showProxy` option to display NodeAutomation specifiers in human-readable form. Subsequent examples in this manual assume this import is used.
+
+Alternatively, to import the NodeAutomation module into a `.js` script:
 
     const {app, con, its, k, File, CommandError} = require('nodeautomation');
 
-Subsequent examples in this manual assume the latter import has been used.
+or `.mjs` script:
+
+	import {app, con, its, k, File, CommandError} from 'nodeautomation';
 
 
 ## Target TextEdit
 
-To create new `app` object, identifying the application to be manipulated, and assign it to a variable, `te`, for easy reuse:
+To create a new `app` object identifying the application to be controlled, in this case macOS's `TextEdit.app`:
 
     const te = app('TextEdit');
 
-The application may be identified by name or path, bundle or process ID, or, if running remotely, `eppc://` URL. If the application is local and is not already running, it will be launched automatically for you. [TBC; different method calls are required for bundle/process ID and eppc URL; in addition, remote eppc support is not yet finished]
+The application may be identified by name, full path, bundle ID, or process ID, or, if running remotely, `eppc://` URL. If the application is local and is not already running, it will be launched automatically for you. [TBC; different method calls are required for bundle/process ID and eppc URL; in addition, remote eppc support is not yet finished]
 
 
 ## Create a new document
@@ -37,7 +45,7 @@ First, create a new TextEdit document by making a new `document` object. This is
 
 Running this command produces a result similar to the following:
 
-    //--> app('TextEdit.app').documents.named('Untitled')
+    app('TextEdit.app').documents.named('Untitled')
 
 
 Because `document` objects are always elements of the root `application` object, applications such as TextEdit can usually infer the location at which the new document object should appear. At other times, you need to supply an `at` parameter that indicates the desired location. For example, the above `make` command can be written more fully as:
