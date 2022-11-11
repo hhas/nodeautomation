@@ -1,9 +1,12 @@
 # Getting help
 
 
-## ASDictionary
+## Tools
 
-ASDictionary, available from the appscript website's [tools page](http://appscript.sourceforge.net/tools.html), provides a convenient GUI interface for exporting application terminology resources in plain text and HTML formats. ASDictionary can export HTML dictionaries in both single-file and frame-based formats.
+* [ASDictionary](http://appscript.sourceforge.net/tools.html) exports application dictionaries in nodeautomation format.
+
+* [ASTranslate](http://appscript.sourceforge.net/tools.html) translates application commands from AppleScript to Node.js syntax - useful when porting existing AppleScript code to Node.js.
+
 
 ## Keyword conversion
 

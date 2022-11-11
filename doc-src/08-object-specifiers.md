@@ -96,7 +96,7 @@ or as command parameters:
 
 To determine if a variable contains a specifier object:
     
-    var someVariable = app('Finder').desktop.files;
+    let someVariable = app('Finder').desktop.files;
     app.isSpecifier(someVariable);
     //--> true
 

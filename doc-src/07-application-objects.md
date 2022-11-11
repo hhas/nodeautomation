@@ -5,7 +5,7 @@
 
 Before you can communicate with a scriptable application, you must call the app object to create an application object. For example:
 
-    var textedit = app.named('TextEdit');
+    const textedit = app.named('TextEdit');
 
 
 To target an application you must call one of the `app` object methods: `named`, `at`, `ID`, `currentApplication`.
@@ -35,14 +35,14 @@ The application's bundle ID (String) or process ID (Number), e.g.:
 
     app.ID(5687)
 
-(This method can also accept a NodObjC-wrapped `NSAppleEventDescriptor` that identifies the target application.)
+(This method can also accept an `objc.NSAppleEventDescriptor` that identifies the target application.)
 
 
 ### Targeting an application by remote (`eppc:`) URL
 
 An `eppc://` URL identifying a remote process to be controlled via Remote Apple Events. An `eppc://` URL has the following form:
 
-  eppc://[user[:password]@host/Application%20Name[?[uid=#]&amp;[pid=#]
+    eppc://[user[:password]@host/Application%20Name[?[uid=#]&amp;[pid=#]
 
 
 For example, to target the `TextEdit` process on the Mac named `my-mac.local`, logging into that Mac as user `jsmith`:
@@ -87,18 +87,18 @@ All `app` object constructors also accept an additional 'options' object contain
 
 For example, to hide iTunes on launch and allow this `app` object to relaunch it as necessary when sending any command at any time:
 
-    var itunes = app('iTunes', {launchOptions: [k.launchAndHide], autoRelaunch: k.always})
+    const itunes = app('iTunes', {launchOptions: [k.launchAndHide], autoRelaunch: k.always})
 
 
 ### More examples
 
-    var cal = app('Calendar');
+    const cal = app('Calendar');
 
-    var textedit = app('TextEdit.app');
+    const textedit = app('TextEdit.app');
 
-    var safari = app('/Applications/Safari');
+    const safari = app('/Applications/Safari');
 
-    var addressbook = app.ID('com.apple.addressbook');
+    const addressbook = app.ID('com.apple.addressbook');
 
     finder = app.at('eppc://192.168.10.1/Finder');
 
@@ -151,7 +151,7 @@ When you create an app object by application name or bundle ID, NodeAutomation u
 
 You can check if the application specified by an Application object is currently running by getting its `isRunning` property. This is useful if you don't want to perform commands on an application that isn't already running. For example:
 
-    var te = app('TextEdit');
+    const te = app('TextEdit');
     // Only perform TextEdit-related commands if it's already running:
     if (te.isRunning) {
       // all TextEdit-related code goes here...
@@ -172,7 +172,7 @@ If the application can't be launched for some reason (e.g. if it's in the Trash)
 
 When NodeAutomation launches a non-running application, it normally sends it a `run` command as part of the launching process. If you wish to avoid this, you should start the application by sending it a `launch` command before doing anything else. For example:
 
-    var te = app('TextEdit');
+    const te = app('TextEdit');
     te.launch();
     // other TextEdit-related code goes here...
 
@@ -198,7 +198,7 @@ An `app` object's auto-relaunching behaviour can be modified by supplying an opt
 
 For example:
 
-    var itunes = app('iTunes', {autoRelaunch: k.always});
+    const itunes = app('iTunes', {autoRelaunch: k.always});
     // rest of code goes here...
 
 
@@ -210,7 +210,7 @@ Note that you can use app objects to control applications that have been quit an
 
 By default, an application object automatically retrieves and parses an application's SDEF terminology data the first time that object is used to construct a specifier or command.
 
-If an application's own SDEF is too defective or unretrievable to be used as-is, the `terminology` option can be used to supply correct terminology definitions instead. This is a JavaScript object containing five properties - `types`, `enumerators`, `properties`, `elements`, and `commands` - that contain the raw name-code mappings for the application's terminology.
+If an application's own SDEF is too defective or unretrievable to be used as-is, the `terminology` option can be used to supply correct terminology definitions instead. This is a JavaScript object containing five properties - `types`, `enumerators`, `properties`, `elements`, and `commands` - that contain the raw name-code mappings for the application's terminology. A file path to a JSON file containing the terminology object is also acceptable.
 
 To export an application's SDEF to a raw terminology object or, if `outputPath` is given, a JSON-encoded file:
 
@@ -223,8 +223,4 @@ For example, to export an app's faulty terminology to a JSON file, where it can 
 To import the corrected terminology file into a new application object:
 	
 	app('ProblemApp.app', {terminology: '/Users/jsmith/ProblemApp.json'})
-
-Raw terminology files are also helpful when working apps that have extremely large SDEFs (e.g. Adobe InDesign). XML bloat, plus the overhead of crossing the JS-ObjC bridge to parse it, can result in very slow startup times when retrieving terminology directly at runtime. Exporting the app's terminology to JSON file and reimporting it into scripts that target that app avoids the expensive SDEF parsing step when running those scripts.
-
-
 

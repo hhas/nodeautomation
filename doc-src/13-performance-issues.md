@@ -13,17 +13,18 @@ Fortunately, it's often possible to minimise performance overheads by using fewe
 
 While iterating over application objects and manipulating each in turn is a common technique, it's also the slowest by far:
 
-    var desiredEmail = 'sam.brown@example.com';
-    var foundNames = [];
+    let desiredEmail = 'sjones@example.com';
+    let foundNames = [];
 
-    for ( var person of app('Address Book').people.get() ) {
-      for ( var email of person.emails.get() ) {
+    for ( let person of app('Address Book').people.get() ) {
+      for ( let email of person.emails.get() ) {
         if ( email.value.get() == desiredEmail ) {
           foundNames.push( person.name.get() );
         }
       }
     }
     console.log(foundNames);
+    // ['Sam Jones']
 
 
 The above script sends one Apple event to get a list of object specifiers to all people, then one Apple event for each person to get a list of object specifiers to their emails, then one Apple event for each of those emails. Thus the time taken increases directly in proportion to the number of people in Address Book. If there's hundreds of people to search, that's hundreds of Apple events to be built, sent and individually resolved, and performance suffers as a result.
@@ -37,19 +38,20 @@ While there are some situations where iterating over and manipulating each appli
 
 In this case, the entire search can be performed using a single complex query sent to Address Book via a single Apple event:
 
-    var desiredEmail = 'sam.brown@example.com';
+    let desiredEmail = 'sjones@example.com';
 
-    var result = app('Address Book').people.where(
+    let result = app('Address Book').people.where(
             its.emails.value.contains(desiredEmail)).name.get();
         
     console.log(result);
+    // ['Sam Jones']
 
 
 To explain:
 
 
 * The query states: find the name of every person object that passes a specific test.
-* The test is: does a given value, 'sam.brown@example.com', appear in a list that consists of the value of each email object contained by an individual person?
+* The test is: does a given value, 'sjones@example.com', appear in a list that consists of the value of each email object contained by an individual person?
 * The command is: evaluate that query against the AEOM and get (return) the result, which is a list of zero or more strings: the names of the people matched by the query.
 
 
@@ -57,24 +59,27 @@ To explain:
 
 While AEOM queries can be surprisingly powerful, there are still many requests too complex for the application to evaluate entirely by itself. For example, let's say that you want to obtain the name of every person who has an email addresses that uses a particular domain name. Unfortunately, this test is too complex to express as a single AEOM query; however, it can still be solved reasonably efficiently by obtaining all the data from the application up-front and processing it locally. For this we need: 1. the name of every person in the Address Book, and 2. each person's email addresses. Fortunately, each of these can be expressed in a single query, allowing all this data to be retrieved using just two `get` commands.
 
-    var desiredDomain = '@foo.com';
+    let desiredDomain = '@example.net';
 
-    // get a list of name strings
-    var nameOfEveryPerson = app('Address Book').people.name.get();
+    // get a list of names
+    let names = app('Address Book').people.name.get();
+    // ['Sam Jones', 'Kay Smith', ...]
 
-    // a list of lists of email strings
-    var emailsOfEveryPerson = app('Address Book').people.emails.value.get();
+    // get a list of lists of emails
+    let emails = app('Address Book').people.emails.value.get();
+    // [['sam@example.org', 'sjones@example.com'], ['ksmith@example.net'], ...]
 
-    var foundNames = [];
-    for ( var i=0; i &lt; nameOfEveryPerson.length; i++ ) {
-      for ( var email of emailsOfEveryPerson[i] ) {
+    let foundNames = [];
+    for ( let i = 0; i &lt; names.length; i++ ) {
+      for ( let email of emails[i] ) {
         if ( email.endsWith(desiredDomain) ) {
-          result.push( nameOfEveryPerson[i] );
+          result.push( names[i] );
           break;
         }
       }
     }
     console.log(result);
+    // ['Kay Smith', ...]
 
 
 This solution isn't as fast as the pure-query approach, but is still far more efficient than iterating over and manipulating each of the application objects themselves.

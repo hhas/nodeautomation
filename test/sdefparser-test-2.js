@@ -1,6 +1,5 @@
 #!/usr/bin/env node 
 
-// Reminders uses XInclude to import its Standard Suite definitions from CocoaScripting framework, so check those terms are present
 
 const na = require('nodeautomation')
 

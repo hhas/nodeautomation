@@ -29,13 +29,13 @@ Raw codes may be written as four-char strings (printable ASCII characters only) 
 
 To determine if a variable contains a `Keyword` object:
     
-    var v = k.document;
+    let v = k.document;
     k.isKeyword(v);
     //--> true
 
 To compare two `Keyword` objects:
 
-    var v = k.documentFile;
+    let v = k.documentFile;
     k.documentFile.isEqual(v);
     //--> true
 
@@ -89,33 +89,33 @@ Note that while `typeUnicodeText` was formally deprecated in Mac OS X 10.4+ in f
 
 All file-related AE types, both current and deprecated, are represented as `File` objects. All file paths are packed and unpacked as `typeFileURL`, coercing as needed; alias and bookmark AE types are not preserved. For example, to open a file named `ReadMe.txt` in the `Documents` folder of user `jsmith`:
 
-    var file = new File('/Users/jsmith/Documents/ReadMe.txt');
+    let file = new File('/Users/jsmith/Documents/ReadMe.txt');
     app('TextEdit').open({_:file});
 
 An absolute POSIX path string is required; relative paths and tilde-based paths are not [currently?] accepted.
 
 To convert a `File` object to POSIX path string:
 
-    var file = new File('/Users/jsmith/Documents/ReadMe.txt');
-    var path = String(file);
+    let file = new File('/Users/jsmith/Documents/ReadMe.txt');
+    let path = String(file);
     console.log(path);
     //--> '/Users/jsmith/Documents/ReadMe.txt'
 
 To determine if a variable contains a `File` object:
     
-    var v = new File('/Users/jsmith');
+    let v = new File('/Users/jsmith');
     File.isFile(v);
     //--> true
 
 To compare two `File` objects (note: this only checks for exact path string equality):
 
-    var v = new File('/Users/jsmith');
+    let v = new File('/Users/jsmith');
     new File('/Users/jsmith').isEqual(v);
     //--> true
 
 For backwards compatibility with older Carbon apps that only accept (now-deprecated) colon-delimited HFS path strings:
 
-    var file = File.fromHFSPath('Macintosh HD:Users:jsmith:Documents:ReadMe.txt');
+    let file = File.fromHFSPath('Macintosh HD:Users:jsmith:Documents:ReadMe.txt');
     file.toHFSPath();
     //--> 'Macintosh HD:Users:jsmith:Documents:ReadMe.txt'
 

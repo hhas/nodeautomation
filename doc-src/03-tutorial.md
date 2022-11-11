@@ -55,7 +55,7 @@ Because `document` objects are always elements of the root `application` object,
 
 As you can see, the make command returns a reference identifying the newly-created object. This reference can be assigned to a variable for easy reuse. Use the make command to create another document, this time assigning its result to a variable, doc:
 
-    var doc = te.make({ new: k.document });
+    let doc = te.make({ new: k.document });
 
 
 ## Set the document's content
@@ -92,7 +92,7 @@ This may seem counter-intuitive if you're used to dealing with AppleScript or ob
     te.documents[0].text;
 
 
-the result is another 'reference' object, `app('/Applications/TextEdit.app').documents.at(1).text`, not the value being referenced (`'Hello World'`). To get the value being referenced, you have to pass the reference as the direct parameter (`_`) to TextEdit's `get` command:
+the result is another 'reference' object, `app('/Applications/TextEdit.app').documents.named('Untitled').text`, not the value being referenced (`'Hello World'`). To get the value being referenced, you have to pass the reference as the direct parameter (`_`) to TextEdit's `get` command:
 
     te.get({ _:doc.text });
 
@@ -119,10 +119,11 @@ Depending on what sort of attribute(s) the reference identifies, `get` may retur
     // 'Hello World!'
 
     te.documents.at(1).get();
-    // app('TextEdit').documents.at(1)
+    // app('TextEdit').documents.documents.named('Untitled')
 
     te.documents.get();
-    // [ app('TextEdit').documents.at(1), app('TextEdit').documents.at(2) ]
+    // [app('TextEdit').documents.documents.named('Untitled'),
+    //  app('TextEdit').documents.documents.named('Untitled 2')]
 
     te.documents.text.get();
     // ['Hello World', '']
@@ -133,10 +134,7 @@ Depending on what sort of attribute(s) the reference identifies, `get` may retur
 The above exercise uses two commands to create a new TextEdit document containing the text 'Hello World'. It is also possible to perform both operations using the `make` command alone by passing the value for the new document's text property via the `make` command's optional `withProperties` parameter:
 
     te.make({ new: k.document, withProperties: {text: 'Hello World'} });
-    // app('TextEdit').documents.at(1)
-
-
-Incidentally, you might note that every time the `make` command is used, it returns a reference to document 1. TextEdit identifies document objects according to the stacking order of their windows, with document 1 being frontmost. When the window stacking order changes, whether as a result of a script command or GUI-based interaction, so does the order of their corresponding document objects. This means that a previously created reference such as `app('TextEdit').documents.at(1)` may now identify a different document object to before! Some applications prefer to return references that identify objects by name or unique ID rather than index to reduce or eliminate the potential for confusion, but it's an issue you should be aware of, particularly with long-running scripts where there is greater opportunity for unexpected third-party interactions to throw a spanner in the works.
+    // app('TextEdit').documents.named('Untitled')
 
 
 ## More on manipulating text

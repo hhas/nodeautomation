@@ -160,7 +160,7 @@ To get a single reference to all documents:
     return d
     --> a reference to documents of app "TextEdit"
 
-    var d = app('TextEdit').documents;
+    let d = app('TextEdit').documents;
     console.log(d);
     //--> app('TextEdit').documents
 
@@ -170,7 +170,7 @@ To get a list of references to each document:
     return d
     --> {document 1 of app "TextEdit", document 2 of app "TextEdit"}
 
-    var d = app('TextEdit').documents.get(); // (explicit 'get' is required)
+    let d = app('TextEdit').documents.get(); // (explicit 'get' is required)
     console.log(d);
     //-->  [app('TextEdit').documents.at(1), app('TextEdit').documents.at(2)]
 

@@ -3,8 +3,6 @@
 
 ## GENERAL
 
-- update to Node 8 release? (currently implemented on Node 6), or at least confirm no changes are needed
-
 - What special JS methods do Specifier proxies need to handle? Currently handles:
 
 		Symbol.toPrimitive
@@ -25,8 +23,6 @@
 
 - confirm JS bitwise operators in readIgnoringOptions() always treat numbers as UInt32 (they seem to do)
 
-- support packing standard objc classes: NSArray, NSString, etc?
-
 
 ## aedefaultterminology
 
@@ -42,14 +38,9 @@
 
 ## aesupport
 
-- check if NodObjC API provides a dedicated 'isObjCObject' function; currently isDescriptor() does a crude API sniff and crosses metaphorical fingers
-
-
 ## aeformatter
 
 - formatter methods should never throw; instead, return opaque representation/NSAppleEventDescriptor description
-
-- formatAppleEvent function (needed for AS->JS command translator)
 
 - other TODOs in file
 
@@ -57,12 +48,6 @@
 ## aegluetable
 
 - should `convertNameToIdentifier` convert non-C-identifier characters too (currently just trims and converts to camelCase)? Or just leave user to use JS's alternate `[...]` which allows any name to be passed as string?
-
-- Should we also worry about names starting with double-underscores (which is convention used for internal methods), considering only pathological dictionaries would ever contain such a thing? (Even if they did, could they do any damage, beyond break their own compatibility? Seems unlikely.)
-
-- SDEFParser is extremely slow on very large SDEFs (e.g. Adobe apps >10sec),largely due to nodobjc overheads; one possible way to ameliorate this would be to move objc() conversions of JS string literals to global consts; try to avoid crossing JS-ObjC bridge as much as possible (e.g. consider using NSString APIs in parseFourCharCode, etc.)
-
-- should translateScriptingDefinition() also reformat type names?
 
 - review special-case handling of 'text' keyword; is this definitely the only ambiguous property-AND-elements name that should default to elements name? (i.e. appscript behavior)
 

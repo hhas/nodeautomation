@@ -17,7 +17,7 @@ For descriptive purposes, the former are referred to as 'attributes' and the lat
 
 Apple event datatypes include:
 
-*common scalar types such as booleans, integers, floats, strings, dates and file references
+* common scalar types such as booleans, integers, floats, strings, dates and file references
 
 * ordered lists
 
@@ -167,7 +167,7 @@ For example, to set the size of the first character of every non-empty paragraph
 
 versus application-supplied terminology:
 
-  app('TextEdit').documents.text.paragraphs.where(its.ne('\n')).characters.at(1).size.set(24)
+    app('TextEdit').documents.text.paragraphs.where(its.ne('\n')).characters.at(1).size.set(24)
 
 
 -------

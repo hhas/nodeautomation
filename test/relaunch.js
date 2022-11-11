@@ -2,7 +2,7 @@
 
 'use strict';
 
-require('nodeautomation/global');
+require('nodeautomation/repl');
 
 {
     var te = app('TextEdit',{autoRelaunch:k.always}); 
