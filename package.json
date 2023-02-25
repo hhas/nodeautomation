@@ -29,7 +29,7 @@
   },
   "files": [
     "docs",
-    "global.js",
+    "repl.js",
     "lib"
   ]
 }
